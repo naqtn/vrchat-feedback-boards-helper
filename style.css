@@ -1,0 +1,18 @@
+body {
+  background: #32332c;
+  color: #c7c8c9;
+}
+a {
+  color: #72ace9;
+}
+.hidden {
+  display: none;
+}
+.warning {
+  padding: 0.5em;
+}
+.warning > div {
+  color:red;
+  border:darkred ridge;
+  padding: 0.2em;
+}

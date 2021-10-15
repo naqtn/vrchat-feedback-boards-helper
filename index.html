@@ -1,0 +1,115 @@
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>VRChat the Feedback boards helper</title>
+</head>
+
+<body>
+    <h2>
+        VRChat Feedback boards helper
+    </h2>
+    <h3>
+        Compound query form for Canny
+    </h3>
+    <form>
+        <div>
+        <input type="reset" value="Reset form">
+    </div>
+        <div>
+            Board:
+            <select id="boardSelect">
+                <option value="feature-requests">Feature Requests</option>
+                <option value="bug-reports">Client Bug Reports</option>
+                <option value="sdk-bug-reports">SDK Bug Reports</option>
+                <option value="website-bug-reports">Website Bug Reports</option>
+                <option value="open-beta">Open Beta</option>
+                <option value="avatar-30">Avatars 3.0</option>
+                <option value="quest-creators">Quest Creators</option>
+                <option value="vrchat-plus-feedback">VRChat Plus Feedback</option>
+                <option value="vrchat-udon-closed-alpha-bugs">Udon Alpha Bugs</option>
+                <option value="vrchat-udon-closed-alpha-feedback">Udon Alpha Feedback</option>
+                <option value="udon-graph-upgrade-closed-testing">Udon Closed Alpha Testing</option>
+                <option value="udon-networking-update">Udon Networking Update</option>
+            </select>
+        </div>
+        <div>
+            Search text: <input type="search" id="searchText">
+        </div>
+        <div>
+            Status:
+            <select id="statusSelect">
+                <option value="">(any)</option>
+                <option value="open">Open</option>
+                <option value="under-review">Under Review</option>
+                <option value="planned">Planned</option>
+                <option value="in-progress">In Progress</option>
+                <option value="complete">Complete</option>
+                <option value="closed">Closed</option>
+                <option value="on-hold">On Hold</option>
+            </select>
+        </div>
+        <div>
+            Sort:
+            <select id="sortSelect">
+                <option value="">(any)</option> <!-- equal to "relevance" ?-->
+                <option value="trending">Trending</option>
+                <option value="top">Top</option>
+                <option value="new">Newest</option>
+                <option value="old">Oldest</option>
+                <!-- <option value="mrr">Monthly Recurring Revenue</option> not supported? -->
+            </select>
+        </div>
+        <div>
+            My own posted or voted only:
+            <input type="checkbox" id="myCheckbox">
+        </div>
+        <div class="hidden warning" id="popupGuide">
+            <div>
+                Could not open window(s). Allow popup for this tool to use "from all Boards" feature.
+                See "pop up blocker" configuration in your web browser's security setting.
+                How-to:
+                <a href="https://support.google.com/chrome/answer/95472" target="_blank">Chrome</a>
+                <a href="https://support.mozilla.org/kb/pop-blocker-settings-exceptions-troubleshooting"
+                    target="_blank">Firefox</a>
+                <a href="https://www.howtogeek.com/732439/how-to-allow-pop-ups-in-microsoft-edge/"
+                    target="_blank">Edge</a>
+                <input type="button" id="popupGuideClose" value="got it">
+            </div>
+        </div>
+        <div>
+            <input type="button" id="openFixButton" value="Search">
+            <input type="button" id="openNewButton" value="Search (new window)">
+            <input type="button" id="openBoardsButton" value="Search (from all Boards)">
+        </div>
+    </form>
+
+    <h3>
+        Links
+    </h3>
+    Canny:
+    <ul>
+        <li><a href="https://help.canny.io/en/articles/4238856-markdown-editing" target="help.canny.io">
+                Markdown for Canny</a></li>
+    </ul>
+    VRChat:
+    <ul>
+        <li><a href="https://docs.vrchat.com/docs" target="docs.vrchat.com">VRChat Documentation</a></li>
+        <li><a href="https://ask.vrchat.com/" target="ask.vrchat.com">VRChat Ask Forums</a></li>
+        <li><a href="https://medium.com/vrchat" target="medium.com/vrchat">VRChat Developer Blog</a></li>
+        <li><a href="https://twitter.com/VRChat" target="twitter.com">VRChat on Twitter</a></li>
+        <li><a href="https://status.vrchat.com/" target="status.vrchat.com">VRChat Server Status</a></li>
+        <li><a href="https://steamdb.info/app/438100/depots/" target="steamdb.info">VRChat on SteamDB</a></li>
+        <li><a href="https://hello.vrchat.com/" target="hello.vrchat.com">VRChat Home</a></li>
+        <li><a href="https://store.steampowered.com/app/438100/VRChat/" target="steampowered.com">VRChat on Steam</a>
+        </li>
+        <li><a href="https://www.oculus.com/experiences/quest/1856672347794301/" target="oculus.com">VRChat on Quest</a>
+        </li>
+    </ul>
+
+    <a href="https://twitter.com/naqtn" target="_blank">by naqtn</a>
+
+    <script src="source.js"></script>
+
+</body>
+</html>
