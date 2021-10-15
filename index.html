@@ -14,8 +14,8 @@
     </h3>
     <form>
         <div>
-        <input type="reset" value="Reset form">
-    </div>
+            <input type="reset" value="Reset form">
+        </div>
         <div>
             Board:
             <select id="boardSelect">
@@ -34,36 +34,42 @@
             </select>
         </div>
         <div>
-            Search text: <input type="search" id="searchText">
-        </div>
-        <div>
-            Status:
-            <select id="statusSelect">
-                <option value="">(any)</option>
-                <option value="open">Open</option>
-                <option value="under-review">Under Review</option>
-                <option value="planned">Planned</option>
-                <option value="in-progress">In Progress</option>
-                <option value="complete">Complete</option>
-                <option value="closed">Closed</option>
-                <option value="on-hold">On Hold</option>
-            </select>
+            Search text: <input type="search" id="searchText" size="80">
         </div>
         <div>
             Sort:
             <select id="sortSelect">
-                <option value="">(any)</option> <!-- equal to "relevance" ?-->
+                <option value="">"default"</option>
                 <option value="trending">Trending</option>
                 <option value="top">Top</option>
                 <option value="new">Newest</option>
                 <option value="old">Oldest</option>
-                <!-- <option value="mrr">Monthly Recurring Revenue</option> not supported? -->
+                <!-- <option value="mrr">Monthly Recurring Revenue</option> not supported ? -->
             </select>
+            ("default" probably means "relevance")
         </div>
         <div>
             My own posted or voted only:
             <input type="checkbox" id="myCheckbox">
         </div>
+        <fieldset id="statusSelect">
+            <legend>Status (no checks for no status filter) :</legend>
+            <input type="checkbox" id="status:open" value="open">
+            <label for="status:open">Open</label>
+            <input type="checkbox" id="status:under-review" value="under-review">
+            <label for="status:under-review">Under Review</label>
+            <input type="checkbox" id="status:planned" value="planned">
+            <label for="status:planned">Planned</label>
+            <input type="checkbox" id="status:in-progress" value="in-progress">
+            <label for="status:in-progress">In Progress</label>
+            <input type="checkbox" id="status:complete" value="complete">
+            <label for="status:complete">Complete</label>
+            <input type="checkbox" id="status:closed" value="closed">
+            <label for="status:closed">Closed</label>
+            <input type="checkbox" id="status:on-hold" value="on-hold">
+            <!--not used ? -->
+            <label for="status:on-hold">On Hold</label>
+        </fieldset>
         <div class="hidden warning" id="popupGuide">
             <div>
                 Could not open window(s). Allow popup for this tool to use "from all Boards" feature.
@@ -90,7 +96,12 @@
     Canny:
     <ul>
         <li><a href="https://help.canny.io/en/articles/4238856-markdown-editing" target="help.canny.io">
-                Markdown for Canny</a></li>
+                Markdown for Canny</a> multi-line code notation is very useful</li>
+        <li><a href="https://help.canny.io/en/articles/3827588-board-filters" target="help.canny.io">
+                Board Filters</a> Refer to "Search / Sort" section for sort options meaning</li>
+                <li><a href="https://feedback.canny.io/" target="help.canny.io">
+                    Canny Feedback</a> Canny's Canny</li>
+                    
     </ul>
     VRChat:
     <ul>
@@ -107,9 +118,15 @@
         </li>
     </ul>
 
-    <a href="https://twitter.com/naqtn" target="_blank">by naqtn</a>
+    <div>
+    written by
+    <a href="https://twitter.com/naqtn" target="_blank">naqtn</a>
+    , repo on <a href="https://github.com/naqtn/vrchat-feedback-boards-helper">GitHub</a>
+    , under the MIT License
+    </div>
 
     <script src="source.js"></script>
 
 </body>
+
 </html>

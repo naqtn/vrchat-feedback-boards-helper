@@ -47,7 +47,14 @@ const composeCannyUrl = (board) => {
         params.append('search', search);
     }
 
-    const status = statusSelect.value;
+    const statusChecks = statusSelect.getElementsByTagName('input');
+    let status = '';
+    for (const check of statusChecks) {
+        if (check.checked) {
+            // '_' separated multiple value
+            status += ((status ==='')? '': '_') + check.value;
+        }
+    }
     if (status !== '') {
         params.append('status', status);
     }
