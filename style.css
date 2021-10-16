@@ -1,11 +1,20 @@
 body {
-  background: #32332c;
+  background: #2b2c26;
   color: #c7c8c9;
 }
 a {
   color: #72ace9;
 }
+form {
+  display: inline-block;
+  background: #3c3d36;
+  padding: 0.7em;
+  margin-left: 1em;
+}
 
+div {
+  padding: 0.15em;
+}
 
 .hidden {
   display: none;
@@ -21,5 +30,5 @@ a {
 
 fieldset {
   display: inline-block;
-  margin: 0.5em;
+  margin: 0.1em;
 }

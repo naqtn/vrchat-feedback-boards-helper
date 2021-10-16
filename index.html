@@ -2,19 +2,19 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <title>VRChat the Feedback boards helper</title>
+    <title>VRChat feedback boards helper</title>
 </head>
 
 <body>
     <h2>
-        VRChat Feedback boards helper
+        VRChat feedback boards helper
     </h2>
     <h3>
         Compound query form for Canny
     </h3>
     <form>
         <div>
-            <input type="reset" value="Reset form">
+            <input type="reset" value="Reset this form">
         </div>
         <div>
             Board:
@@ -49,7 +49,7 @@
             ("default" probably means "relevance")
         </div>
         <div>
-            My own posted or voted only:
+            <label for="myCheckbox" >My own posted or voted only:</label>
             <input type="checkbox" id="myCheckbox">
         </div>
         <fieldset id="statusSelect">
@@ -66,10 +66,13 @@
             <label for="status:complete">Complete</label>
             <input type="checkbox" id="status:closed" value="closed">
             <label for="status:closed">Closed</label>
+            <!--
+			"On Hold" seems not to be used now.
             <input type="checkbox" id="status:on-hold" value="on-hold">
-            <!--not used ? -->
             <label for="status:on-hold">On Hold</label>
+			-->
         </fieldset>
+        <hr>
         <div class="hidden warning" id="popupGuide">
             <div>
                 Could not open window(s). Allow popup for this tool to use "from all Boards" feature.
