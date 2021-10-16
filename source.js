@@ -34,7 +34,7 @@ const openCannyAllBoards = () => {
     }
     if (maybeBlocked) {
         popupGuide.classList.remove('hidden');
-        popupGuideClose.focus();
+        popupGuide.focus();
     }
 }
 

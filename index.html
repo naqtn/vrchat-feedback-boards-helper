@@ -46,7 +46,6 @@
                 <option value="old">Oldest</option>
                 <!-- <option value="mrr">Monthly Recurring Revenue</option> not supported ? -->
             </select>
-            ("default" probably means "relevance")
         </div>
         <div>
             <label for="myCheckbox">My own posted or voted only:</label>
@@ -75,23 +74,39 @@
         <hr>
         <div class="hidden warning" id="popupGuide">
             <div>
-                Could not open window(s). Allow popup for this tool to use "from all Boards" feature.
-                See "pop up blocker" configuration in your web browser's security setting.
-                How-to:
-                <a href="https://support.google.com/chrome/answer/95472" target="_blank">Chrome</a>
-                <a href="https://support.mozilla.org/kb/pop-blocker-settings-exceptions-troubleshooting"
-                    target="_blank">Firefox</a>
-                <a href="https://www.howtogeek.com/732439/how-to-allow-pop-ups-in-microsoft-edge/"
-                    target="_blank">Edge</a>
-                <input type="button" id="popupGuideClose" value="got it">
+                <p>
+                    Could not open some windows.
+                <p>
+                    Allow pop-up for this tool to use "from all Boards" feature.
+                    See "pop-up blocker" configuration in your web browser's security setting.
+                <p>
+                    Easy way to fix
+                    on Chrome:
+                    <img src="img/chrome-popup-en-noted-70pc.png">
+                    , on Firefox:
+                    <img src="img/firefox-popup-en-noted-70pc.png">
+                <p>
+                    More details:
+                    <a href="https://support.google.com/chrome/answer/95472" target="_blank">Chrome</a>
+                    <a href="https://support.mozilla.org/kb/pop-blocker-settings-exceptions-troubleshooting"
+                        target="_blank">Firefox</a>
+                    <a href="https://www.howtogeek.com/732439/how-to-allow-pop-ups-in-microsoft-edge/"
+                        target="_blank">Edge</a>
+                    <a href="https://support.apple.com/guide/safari/block-pop-ups-sfri40696/mac"
+                        target="_blank">Safari</a>
+                <p>
+                    <input type="button" id="popupGuideClose" value="got it">
             </div>
         </div>
         <div>
-            <input type="button" id="openFixButton" value="Search">
+            <input type="button" id="openFixButton" value="Search (reuse window)">
             <input type="button" id="openNewButton" value="Search (new window)">
             <input type="button" id="openBoardsButton" value="Search (from all Boards)">
         </div>
     </form>
+    <div class="note">
+        Note: Sort "default" probably means "relevance" when Search text is specified. If not, it means "new".
+    </div>
 
     <h3>
         Links
@@ -139,4 +154,5 @@
     <script src="source.js"></script>
 
 </body>
+
 </html>

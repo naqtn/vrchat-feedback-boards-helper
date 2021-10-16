@@ -15,6 +15,13 @@ form {
 div {
   padding: 0.15em;
 }
+.note {
+  font-size: 80%;
+}
+fieldset {
+  display: inline-block;
+  margin: 0.1em;
+}
 
 .hidden {
   display: none;
@@ -27,8 +34,6 @@ div {
   border:darkred ridge;
   padding: 0.2em;
 }
-
-fieldset {
-  display: inline-block;
-  margin: 0.1em;
+.warning img {
+  width:200px;
 }
