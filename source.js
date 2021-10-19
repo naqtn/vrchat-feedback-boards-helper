@@ -27,7 +27,6 @@ const cannySiteData = [
             { urlName: "feature-requests", name: "Feature Requests", },
             { urlName: "integrations", name: "Integrations", invisible: true, },
             { urlName: "languages", name: "Languages", },
-            
         ],
     }
 ];
@@ -96,43 +95,86 @@ const openCannyAllBoards = () => {
     }
 }
 
+// QueryObject example
+//
+// const aQueryObject = {
+//     search: 'FBT',
+//     status: ['under-review', ],
+//     sort: 'trending',
+//     filter: ['my'],
+//     baseURL: 'https://feedback.vrchat.com/',
+//     boardURLName: "feature-requests",
+// };
 
-const composeCannyUrl = (boardOptElment) => {
-    const board = boardOptElment.value;
+const composeQueryObjectFromForm = (boardOptElment) => {
+    const qobj = {};
 
-    const params = new URLSearchParams();
+    const optgroup = boardOptElment.parentElement;
+    qobj.baseURL = optgroup.getAttribute('data-baseURL');
+    qobj.boardURLName = boardOptElment.value;
 
     const search = searchText.value;
     if (search !== '') {
-        params.append('search', search);
+        qobj.search = search;
     }
 
+    const status = [];
     const statusChecks = statusSelect.getElementsByTagName('input');
-    let status = '';
     for (const check of statusChecks) {
         if (check.checked) {
-            // '_' separated multiple value
-            status += ((status === '') ? '' : '_') + check.value;
+            status.push(check.value);
         }
     }
-    if (status !== '') {
-        params.append('status', status);
+    if (0 < status.length) {
+        qobj.status = status;
     }
 
     const sort = sortSelect.value;
     if (sort !== '') {
-        params.append('sort', sort);
+        qobj.sort = sort;
     }
 
-    const my = myCheckbox.checked;
-    if (my) {
-        params.append('filter', 'my');
+    const filter = [];
+    if (myCheckbox.checked) {
+        filter.push('my');
+    }
+    if (0 < filter.length) {
+        qobj.filter = filter;
     }
 
-    const optgroup = boardOptElment.parentElement;
-    const baseURL = optgroup.getAttribute('data-baseURL');
-    const url = baseURL + board + '?' + params;
+    return qobj;
+}
+
+const convertQueryObjectToURL = (qobj) => {
+    const params = new URLSearchParams();
+
+    if (qobj.search) {
+        params.append('search', qobj.search);
+    }
+
+    if (qobj.status) {
+        // '_' separated multiple value
+        params.append('status', qobj.status.join('_'));
+    }
+
+    if (qobj.sort) {
+        params.append('sort', qobj.sort);
+    }
+
+    if (qobj.filter) {
+        // actually 'my' is the only possible value.
+        // expecting multiple filter as future feature.
+        params.append('filter', qobj.filter.join('_'));
+    }
+
+    const url = qobj.baseURL + qobj.boardURLName + '?' + params;
     return url;
+}
+
+const composeCannyUrl = (boardOptElment) => {
+    const qobj = composeQueryObjectFromForm(boardOptElment);
+    const curl = convertQueryObjectToURL(qobj);
+    return curl;
 };
 
 const initialize = () => {
