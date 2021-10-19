@@ -18,7 +18,7 @@ This tool provides query form and it opens Canny page for query result on other 
 What you can do with this tool are (I mean what you can't do on Canny's UI): 
 
 - Specify search text and other conditions together. (Text and status filter etc. simultaneously) 
-- Multiple selection of statuses for filtering.
+- "OR" condition of status for filtering. (Lists posts that have one of the specified statuses.)
 - Limit result list to posts with "Open", "Closed" status. ("Open" has no reply from the dev. "Closed" is rejected one.)
 - Use sort ordering "old". (most oldest post on the first)
 - Reuse search condition clearly. (You can modify condition and try it again. You can get results on each separated window and compare these.)
@@ -46,7 +46,9 @@ Though the detail depends on what browser you use, common and easy way is
 
 ## Limitation
 
-- It's impossible to list posts that you originally wrote. Canny doesn't support such query. https://feedback.canny.io/feature-requests/p/show-my-posts
+- It's impossible to list posts that you originally wrote. Canny doesn't support such query. https://feedback.canny.io/feature-requests/p/show-my-posts https://feedback.canny.io/feature-requests/p/allow-users-to-pull-up-a-list-of-all-the-posts-theyve-made
+- Canny seems does some kind of fuzzy string searching. There's no way to exact matching. https://feedback.canny.io/feature-requests/p/offer-exact-search
+- FYI: feature request for Caany about no way to search from all board in a single view https://feedback.canny.io/feature-requests/p/global-search-all-boards-to-avoid-duplicates )
 
 
 ## Appendix: Canny terminology
@@ -75,4 +77,4 @@ Cite from [Canny help "Changing the status of a post"](https://help.canny.io/en/
 > - **Complete** (We are done working on this)
 > - **Closed** (We will not work on this)
 
-("On Hold" is also defined internally. But it isn't used now.)
+(There seems to exist another status named "On Hold", but probably not to be used now.)

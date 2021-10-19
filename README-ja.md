@@ -23,7 +23,7 @@ VRChat が不具合や要望を受け付けている Canny のための、お便
 このツールでは以下のことが行えます。（別の言い方をすると、Canny の UI ではこれらのことが行えません。）
 
 - 検索文字列と他の条件を一緒に指定すること。（テキストとステータスなどを同時に指定すること）
-- ステータスによるフィルターでの複数選択。
+- ステータスによるフィルターでの複数指定。（いずれかのステータスに該当するものが検索される）
 - "Open" や "Closed" 状態の投稿に絞り込むこと。（"Open" は開発からの返答がついていないもの。"Closed" は対応しないとされたもの。）
 - 結果順を "old" にすること。（もっとも古いものが先頭に表示される。）
 - 検索条件を再利用すること。（検索条件を変更しての再検索。結果を別々のウィンドウに表示して、それらを比較できる。）
@@ -41,7 +41,7 @@ VRChat が不具合や要望を受け付けている Canny のための、お便
 1. "search (from all Boards)" ボタンを押す。おそらく一つのウィンドウ（タブ）だけが開かれる。
 2. ツールのウィンドウに戻る。ブラウザはツールバーに警告アイコンを表示している。
 3. アイコンをクリックして設定ダイアログを開く。
-4. 許可を選び、設定をする。
+4. 許可を選び、設定する。
 
 ### Chrome でのダイアログ:
 ![popup blocking configuration dialog of Chrome](img/chrome-popup-ja-noted-70pc.png)
@@ -52,8 +52,9 @@ VRChat が不具合や要望を受け付けている Canny のための、お便
 
 ## 制限事項
 
-- 自分が書いた投稿のみを一覧することは出来ません。Canny の検索にその機能がありません。 https://feedback.canny.io/feature-requests/p/show-my-posts
-
+- 自分が書いた投稿のみを一覧することは出来ません。Canny の検索にその機能がありません。 https://feedback.canny.io/feature-requests/p/show-my-posts https://feedback.canny.io/feature-requests/p/allow-users-to-pull-up-a-list-of-all-the-posts-theyve-made
+- Canny はテキストの検索において何らかの曖昧検索をしているようです。完全一致を指定する方法はありません。 https://feedback.canny.io/feature-requests/p/offer-exact-search
+- 参考：複数の board からの検索を一画面で行えない、という Canny への機能要求  https://feedback.canny.io/feature-requests/p/global-search-all-boards-to-avoid-duplicates
 
 
 ## 補足資料: Canny の用語
