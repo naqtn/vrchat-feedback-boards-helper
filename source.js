@@ -53,16 +53,56 @@ document.getElementById('popupGuideClose').addEventListener('click', () => { pop
 ////////////////////////////////////////
 // Recently Opened List
 
+// hboj: History Object
+//
+// const aHistoryObjectExample = {
+//     index: 2, // temporary 'id'
+//     queryString: '/open-beta?status=planned',  // to identify query for human, not for the program
+//     queryObject: {/* see Query Object */},
+//     memo: "Check open beta",
+//     /* lastOpened: ...etc. */
+// }
+
 var recentlyOpenedOptions = {
     valueNames: [
-        'queryString', // to identify query for human, not for the program
-        // 'memo'
+        { data: ['index'] },
+        'queryString',
     ],
+    listClass: 'recentlyOpenedList',
     item: 'recentlyOpenedItemTemplate',
 };
 
-const recentlyOpenedList = new List('recentlyOpenedList', recentlyOpenedOptions);
-recentlyOpenedList.clear();
+const recentlyOpenedList = new List('recentlyOpenedContainer', recentlyOpenedOptions);
+recentlyOpenedList.clear(); // remove template row
+
+const addToRecentlyOpened = (queryObject, url) => {
+    // Add pathname because board name is in it.
+    // In the future, if the search params can contain board names for multiple board search on Canny side,
+    // consider remove this part.
+    const queryString = url.pathname + url.search;
+    const index = recentlyOpenedList.items.length;
+    const hobj = { queryString, queryObject, index };
+    console.log({ hobj });
+    recentlyOpenedList.add(hobj);
+};
+
+// attach event listeners for newly created elements
+recentlyOpenedList.on('updated', (list) => {
+    for (const elmt of list.list.querySelectorAll('input[name=loadToTheForm]:not([data-attached])')) {
+        elmt.addEventListener('click', loadToTheForm);
+        elmt.setAttribute('data-attached', true);
+    }
+});
+
+const loadToTheForm = (event) => {
+    const tr = event.target.closest('tr');
+    const index = tr.getAttribute('data-index');
+    const item = recentlyOpenedList.get('index', index)[0];
+    const hobj = item.values();
+
+    loadQueryObjectToForm(hobj.queryObject);
+    return false;
+};
 
 document.getElementById('clearRecentlyOpenedButton').addEventListener('click', () => {
     recentlyOpenedList.clear();
@@ -110,12 +150,7 @@ const openCanny = (isNewWin) => {
     const url = convertQueryObjectToURL(qobj);
     const win = window.open(url, isNewWin ? '_blank' : 'cannyWindow');
 
-    // Add pathname because board name is in it.
-    // In the future, if the search params can contain board names for multiple board search on Canny side,
-    // consider remove this part.
-    const queryString = url.pathname + url.search;
-    const his = { queryString };
-    recentlyOpenedList.add(his);
+    addToRecentlyOpened(qobj, url);
 };
 
 const openCannyAllBoards = () => {
@@ -186,7 +221,41 @@ const composeQueryObjectFromForm = (boardOptElment) => {
     }
 
     return qobj;
-}
+};
+
+const loadQueryObjectToForm = (qobj) => {
+    // Multiple option element can have the same boardURLName.
+    // So we traverse from optgroup.
+    const optgroupSel = `optgroup[data-baseURL="${qobj.baseURL}"]`;
+    const optgroup = boardSelect.querySelector(optgroupSel);
+    if (!optgroup) {
+        console.error(optgroupSel + " not found.");
+    } else {
+        const optSel = `[value="${qobj.boardURLName}"]`;
+        const opt = optgroup.querySelector(optSel);
+        if (!opt) {
+            console.error(optSel + " not found.");
+        } else {
+            opt.selected = true;
+        }
+    }
+
+    searchText.value = qobj.search ? qobj.search : '';
+
+    // statuses are multi-selectable
+    const status = qobj.status ?? [];
+    const statusChecks = statusSelect.getElementsByTagName('input');
+    for (const check of statusChecks) {
+        check.checked = (0 <= status.indexOf(check.value));
+    }
+
+    // sort is single
+    const sort = qobj.sort ?? '';
+    const opt = sortSelect.value = sort;
+
+    const filter = qobj.filter ?? [];
+    myCheckbox.checked = (0 <= filter.indexOf('my'));
+};
 
 const convertQueryObjectToURL = (qobj) => {
     const params = new URLSearchParams();
@@ -212,7 +281,7 @@ const convertQueryObjectToURL = (qobj) => {
 
     const urlStr = qobj.boardURLName + '?' + params;
     return new URL(urlStr, qobj.baseURL);
-}
+};
 
 ////////////////////////////////////////
 const initialize = () => {
