@@ -41,22 +41,29 @@
         </div>
         <fieldset id="statusSelect">
             <legend>Status (no checks for no status filter) :</legend>
-            <input type="checkbox" id="status:open" value="open">
-            <label for="status:open">Open</label>
-            <input type="checkbox" id="status:under-review" value="under-review">
-            <label for="status:under-review">Under Review</label>
-            <input type="checkbox" id="status:planned" value="planned">
-            <label for="status:planned">Planned</label>
-            <input type="checkbox" id="status:in-progress" value="in-progress">
-            <label for="status:in-progress">In Progress</label>
-            <input type="checkbox" id="status:complete" value="complete">
-            <label for="status:complete">Complete</label>
-            <input type="checkbox" id="status:closed" value="closed">
-            <label for="status:closed">Closed</label>
+            <label>
+                <input type="checkbox" value="open">Open
+            </label>
+            <label>
+                <input type="checkbox" value="under-review">Under Review
+            </label>
+            <label>
+                <input type="checkbox" value="planned">Planned
+            </label>
+            <label>
+                <input type="checkbox" value="in-progress">In Progress
+            </label>
+            <label>
+                <input type="checkbox" value="complete">Complete
+            </label>
+            <label>
+                <input type="checkbox" value="closed">Closed
+            </label>
             <!--
 			"On Hold" seems not to be used now.
-            <input type="checkbox" id="status:on-hold" value="on-hold">
-            <label for="status:on-hold">On Hold</label>
+            <label>On Hold
+                <input type="checkbox" value="on-hold">
+            </label>
 			-->
         </fieldset>
         <hr>
@@ -96,6 +103,32 @@
         Note: Sort "default" probably means "relevance" when Search text is specified. If not, it means "new".
     </div>
 
+    <div id="experimentalFeaturesDiv" class="hidden">
+        <h4>Recently Opened</h4>
+        <div id="recentlyOpenedList" class="tableContainer">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Query</th>
+                        <!-- <th>Memo</th> -->
+                        <th>
+                            <!--operation buttons-->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                    <tr id="recentlyOpenedItemTemplate">
+                        <td class="queryString"></td>
+                        <!-- <td class="memo"></td> -->
+                        <td>
+                            <!-- <input type="button" value="load to the form"> -->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <input type="button" id="clearRecentlyOpenedButton" value="Clear Recently Opened">
+    </div>
     <h3>
         Links
     </h3>
@@ -139,6 +172,7 @@
         , under the MIT License
     </div>
 
+    <script src="libs/list.js-2.3.1/list.min.js"></script>
     <script src="source.js"></script>
 
 </body>

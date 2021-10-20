@@ -1,5 +1,8 @@
 'use strict';
 
+////////////////////////////////////////
+// Setup
+
 const cannySiteData = [
     {
         name: 'VRChat feedback boards',
@@ -31,6 +34,8 @@ const cannySiteData = [
     }
 ];
 
+////////////////////////////////////////
+// Query form elements
 const boardSelect = document.getElementById('boardSelect');
 const searchText = document.getElementById('searchText');
 const statusSelect = document.getElementById('statusSelect');
@@ -38,13 +43,40 @@ const sortSelect = document.getElementById('sortSelect');
 const myCheckbox = document.getElementById('myCheckbox');
 
 const popupGuide = document.getElementById('popupGuide');
-const popupGuideClose = document.getElementById('popupGuideClose');
 
 document.getElementById('openFixButton').addEventListener('click', () => openCanny(false));
 document.getElementById('openNewButton').addEventListener('click', () => openCanny(true));
 document.getElementById('openBoardsButton').addEventListener('click', () => openCannyAllBoards());
-popupGuideClose.addEventListener('click', () => { popupGuide.classList.add('hidden'); });
+document.getElementById('popupGuideClose').addEventListener('click', () => { popupGuide.classList.add('hidden'); });
 
+
+////////////////////////////////////////
+// Recently Opened List
+
+var recentlyOpenedOptions = {
+    valueNames: [
+        'queryString', // to identify query for human, not for the program
+        // 'memo'
+    ],
+    item: 'recentlyOpenedItemTemplate',
+};
+
+const recentlyOpenedList = new List('recentlyOpenedList', recentlyOpenedOptions);
+recentlyOpenedList.clear();
+
+document.getElementById('clearRecentlyOpenedButton').addEventListener('click', () => {
+    recentlyOpenedList.clear();
+    // TODO write to storage
+});
+
+
+////////////////////////////////////////
+// Query form functions
+// 
+// HTML Structure:
+// <select>
+//   <optgroup data-baseURL="{URL base}">
+//     <option value="{board urlName}">{board name}</option>
 
 const setupBoardSelect = (aSelect, data) => {
     for (const site of data) {
@@ -74,16 +106,25 @@ const openCanny = (isNewWin) => {
     if (opts.length !== 1) {
         return;
     }
-    const url = composeCannyUrl(opts[0]);
+    const qobj = composeQueryObjectFromForm(opts[0]);
+    const url = convertQueryObjectToURL(qobj);
     const win = window.open(url, isNewWin ? '_blank' : 'cannyWindow');
-}
+
+    // Add pathname because board name is in it.
+    // In the future, if the search params can contain board names for multiple board search on Canny side,
+    // consider remove this part.
+    const queryString = url.pathname + url.search;
+    const his = { queryString };
+    recentlyOpenedList.add(his);
+};
 
 const openCannyAllBoards = () => {
     let maybeBlocked = false;
     for (const opt of boardSelect.options) {
-        const url = composeCannyUrl(opt);
+        const qobj = composeQueryObjectFromForm(boardOptElment);
+        const url = convertQueryObjectToURL(qobj);
         const board = opt.value;
-        const win = window.open(url, board);
+        const win = window.open(url, board); // windows are always reused for all-boards-search
         if (win === null) {
             // maybe, because of pop-up blocking
             maybeBlocked = true;
@@ -93,11 +134,13 @@ const openCannyAllBoards = () => {
         popupGuide.classList.remove('hidden');
         popupGuide.focus();
     }
+    // TODO update recently opened
 }
 
-// QueryObject example
-//
-// const aQueryObject = {
+////////////////////////////////////////
+// Query Object
+// 
+// const aQueryObjectExample = {
 //     search: 'FBT',
 //     status: ['under-review', ],
 //     sort: 'trending',
@@ -167,17 +210,18 @@ const convertQueryObjectToURL = (qobj) => {
         params.append('filter', qobj.filter.join('_'));
     }
 
-    const url = qobj.baseURL + qobj.boardURLName + '?' + params;
-    return url;
+    const urlStr = qobj.boardURLName + '?' + params;
+    return new URL(urlStr, qobj.baseURL);
 }
 
-const composeCannyUrl = (boardOptElment) => {
-    const qobj = composeQueryObjectFromForm(boardOptElment);
-    const curl = convertQueryObjectToURL(qobj);
-    return curl;
-};
-
+////////////////////////////////////////
 const initialize = () => {
     setupBoardSelect(boardSelect, cannySiteData);
+
+    // enable experiment UI
+    const params = (new URL(document.location)).searchParams;
+    if (params.get('experiment') !== null) {
+        document.getElementById('experimentalFeaturesDiv').classList.remove('hidden');
+    }
 }
 initialize();

@@ -37,3 +37,20 @@ fieldset {
 .warning img {
   width:200px;
 }
+
+table {
+  /* width: 100%; */
+  border-collapse: collapse;
+}
+table, th, td {
+  border: 1px solid #90b69b;
+}
+tr:nth-child(odd) {
+  background-color: #2b2c26;
+}
+tr:nth-child(even) {
+  background-color: #34352f;
+}
+.tableContainer {
+  overflow-x:auto;
+}
