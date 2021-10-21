@@ -156,7 +156,7 @@ const openCanny = (isNewWin) => {
 const openCannyAllBoards = () => {
     let maybeBlocked = false;
     for (const opt of boardSelect.options) {
-        const qobj = composeQueryObjectFromForm(boardOptElment);
+        const qobj = composeQueryObjectFromForm(opt);
         const url = convertQueryObjectToURL(qobj);
         const board = opt.value;
         const win = window.open(url, board); // windows are always reused for all-boards-search
