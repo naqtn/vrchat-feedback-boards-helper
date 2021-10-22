@@ -49,7 +49,9 @@ const validateConfig = (config) => {
 validateConfig(config);
 
 ////////////////////////////////////////
-// Query form elements
+// HTML Elements
+
+// Query form
 const boardSelect = document.getElementById('boardSelect');
 const searchText = document.getElementById('searchText');
 const statusSelect = document.getElementById('statusSelect');
@@ -63,6 +65,9 @@ document.getElementById('openNewButton').addEventListener('click', () => openCan
 document.getElementById('openBoardsButton').addEventListener('click', () => openCannyAllBoards());
 document.getElementById('popupGuideClose').addEventListener('click', () => { popupGuide.classList.add('hidden'); });
 
+// Stocked Query
+document.getElementById('clearStockedQueryButton').addEventListener('click', (e) => clearStockedQuery(e));
+
 
 ////////////////////////////////////////
 // List.js supplement
@@ -71,6 +76,8 @@ document.getElementById('popupGuideClose').addEventListener('click', () => { pop
 // * {valueNames: [ { data: ['index'] } ]} in options for List instance
 // * index value is unique.
 // * using List.js with table tag
+//
+// TODO Rename 'index' to another word. 'tmp-id'? (now I use remove method. so it's not a index anymore.)
 
 const addEventListenerIfNotYet = (listElement, selectorFragment, type, listener) => {
     for (const elmt of listElement.querySelectorAll(`${selectorFragment}:not([data-${type}-attached])`)) {
@@ -79,11 +86,15 @@ const addEventListenerIfNotYet = (listElement, selectorFragment, type, listener)
     }
 };
 
-const getListItemValuesFromEvent = (event, list) => {
+const getListItemFromEvent = (event, list) => {
     const tr = event.target.closest('tr');
     const index = tr.getAttribute('data-index');
     const item = list.get('index', index)[0];
-    return item.values();
+    return item;
+};
+
+const getListItemValuesFromEvent = (event, list) => {
+    return getListItemFromEvent(event, list).values();
 };
 
 /**
@@ -169,10 +180,16 @@ const stockItem = (event) => {
 ////////////////////////////////////////
 // Stocked Query
 
+const storageKeyOf = (type) => {
+    return `${document.location.pathname}/${type}`;
+}
+const saveStockedStoragetype = 'StockedQuery.v1';
+
 var stockedQueryOptions = {
     valueNames: [
         { data: ['index'] },
         'queryString',
+        'note',
     ],
     item: 'stockedQueryItemTemplate',
 };
@@ -181,16 +198,77 @@ const stockedQueryList = new List('stockedQueryContainer', stockedQueryOptions);
 stockedQueryList.clear(); // remove template row
 let stockedQueryListLastIndex = 0;
 
+const addToStockedQueryInternal = (historyObject) => {
+    historyObject['index'] = ++stockedQueryListLastIndex;
+
+    stockedQueryList.add(historyObject);
+    stockedQueryList.sort('', { sortFunction: sortByIndex, order: 'desc' });
+};
+
 const addToStockedQuery = (historyObject) => {
     // clone it because we need another index for this list.
     const hobj = JSON.parse(JSON.stringify(historyObject));
-    hobj['index'] = ++stockedQueryListLastIndex;
-
-    stockedQueryList.add(hobj);
-    stockedQueryList.sort('', { sortFunction: sortByIndex, order: 'desc' });
-
-    // TODO write to local storage (and load at initialization)
+    hobj.note = "";
+    addToStockedQueryInternal(hobj);
+    saveStockedQuery();
 };
+
+const startCellEdit = (event) => {
+    const dispElmt = event.currentTarget;
+    const tdElmt = dispElmt.parentElement;
+    const editElmt = tdElmt.querySelector('[name=editInput]');
+    dispElmt.classList.add('hidden');
+    editElmt.classList.remove('hidden');
+
+    const hobj = getListItemValuesFromEvent(event, stockedQueryList);
+    editElmt.value = hobj.note;
+    editElmt.setAttribute('data-escaped', 'false');
+    editElmt.focus();
+
+    return false;
+};
+
+const completeCellEdit = (event) => {
+    const editElmt = event.currentTarget;
+    const tdElmt = editElmt.parentElement;
+    const dispElmt = tdElmt.querySelector('[name=displayLook]');
+    dispElmt.classList.remove('hidden');
+    editElmt.classList.add('hidden');
+
+    if (editElmt.getAttribute('data-escaped') === 'false') {
+        const item = getListItemFromEvent(event, stockedQueryList);
+        const hobj = item.values();
+        hobj.note = editElmt.value;
+        item.values(hobj);
+
+        saveStockedQuery();
+    }
+    return false;
+};
+
+const handleKeyCellEditing = (event) => {
+    const editElmt = event.currentTarget;
+    switch (event.key) {
+        case 'Enter':
+            editElmt.blur();
+            break;
+        case 'Escape':
+            editElmt.setAttribute('data-escaped', 'true');
+            editElmt.blur();
+            break;
+    }
+};
+
+const handleKeyCellDisplay = (event) => {
+    const editElmt = event.currentTarget;
+    switch (event.key) {
+        case 'Enter': // fall through
+        case 'Space':
+            startCellEdit(event);
+            break;
+    }
+};
+
 
 stockedQueryList.on('updated', (list) => {
     addEventListenerIfNotYet(list.list, 'input[name=loadButton]', 'click',
@@ -198,20 +276,64 @@ stockedQueryList.on('updated', (list) => {
             const hobj = getListItemValuesFromEvent(event, stockedQueryList);
             loadQueryObjectToForm(hobj.queryObject);
             return false;
-        });
+        }
+    );
     addEventListenerIfNotYet(list.list, 'input[name=deleteButton]', 'click',
         (event) => {
             const hobj = getListItemValuesFromEvent(event, stockedQueryList);
             stockedQueryList.remove('index', hobj['index']);
-            // TODO write to local storage
+            saveStockedQuery();
             return false;
-        });
+        }
+    );
+    addEventListenerIfNotYet(list.list, '[name=displayLook]', 'click', startCellEdit);
+    addEventListenerIfNotYet(list.list, '[name=displayLook]', 'keydown', handleKeyCellDisplay);
+    addEventListenerIfNotYet(list.list, '[name=editInput]', 'blur', completeCellEdit);
+    addEventListenerIfNotYet(list.list, '[name=editInput]', 'keydown', handleKeyCellEditing);
 });
 
-document.getElementById('clearStockedQueryButton').addEventListener('click', () => {
+const clearStockedQuery = (event) => {
     stockedQueryList.clear();
-    // TODO delete local storage
-});
+
+    const type = saveStockedStoragetype;
+    const key = storageKeyOf(type);
+    localStorage.removeItem(key);
+
+    return false;
+};
+
+const saveStockedQuery = () => {
+    const items = stockedQueryList.items;
+
+    const data = [];
+    for (const item of items) {
+        data.push(item.values());
+    }
+    data.reverse(); // The list is sorted in desc order. Reverse it to original order to save. 
+    const type = saveStockedStoragetype;
+    const persistObj = { type, data };
+
+    const key = storageKeyOf(type);
+    const value = JSON.stringify(persistObj);
+    localStorage[key] = value;
+};
+
+const loadStockedQuery = () => {
+    const type = saveStockedStoragetype;
+    const key = storageKeyOf(type);
+    const value = localStorage[key];
+
+    stockedQueryList.clear(); // clear even if anything stored
+
+    if (value) {
+        const persistObj = JSON.parse(value);
+        if (persistObj.type === type) {
+            for (const hobj of persistObj.data) {
+                addToStockedQueryInternal(hobj);
+            }
+        }
+    }
+}
 
 ////////////////////////////////////////
 // Query form
@@ -390,6 +512,7 @@ const convertQueryObjectToURL = (qobj) => {
 ////////////////////////////////////////
 const initialize = () => {
     setupBoardSelect(boardSelect, cannySiteData);
+    loadStockedQuery();
 
     if (config.experiment) {
         // enable experiment UI

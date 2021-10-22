@@ -54,3 +54,6 @@ tr:nth-child(even) {
 .tableContainer {
   overflow-x:auto;
 }
+.cellDisplay:focus {
+  border:blue dotted;
+}
