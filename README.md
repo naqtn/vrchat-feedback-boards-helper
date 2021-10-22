@@ -47,7 +47,7 @@ Though the detail depends on what browser you use, common and easy way is
 ## Limitation
 
 - It's impossible to list posts that you originally wrote. Canny doesn't support such query. https://feedback.canny.io/feature-requests/p/show-my-posts https://feedback.canny.io/feature-requests/p/allow-users-to-pull-up-a-list-of-all-the-posts-theyve-made
-- Canny seems does some kind of fuzzy string searching. There's no way to exact matching. https://feedback.canny.io/feature-requests/p/offer-exact-search
+- Canny seems to do some kind of fuzzy string searching. There's no way to exact matching. https://feedback.canny.io/feature-requests/p/offer-exact-search
 - FYI: feature request for Caany about no way to search from all board in a single view https://feedback.canny.io/feature-requests/p/global-search-all-boards-to-avoid-duplicates )
 
 

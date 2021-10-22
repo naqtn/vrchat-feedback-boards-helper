@@ -34,6 +34,20 @@ const cannySiteData = [
     }
 ];
 
+const params = (new URL(document.location)).searchParams;
+
+const config = {
+    maximumRecentlyOpenedItems: 5,
+    experiment: (params.get('experiment') !== null),
+};
+
+const validateConfig = (config) => {
+    if (config.maximumRecentlyOpenedItems <= 0) {
+        throw new RangeError("config.maximumRecentlyOpenedItems must be positive value");
+    }
+};
+validateConfig(config);
+
 ////////////////////////////////////////
 // Query form elements
 const boardSelect = document.getElementById('boardSelect');
@@ -49,6 +63,47 @@ document.getElementById('openNewButton').addEventListener('click', () => openCan
 document.getElementById('openBoardsButton').addEventListener('click', () => openCannyAllBoards());
 document.getElementById('popupGuideClose').addEventListener('click', () => { popupGuide.classList.add('hidden'); });
 
+
+////////////////////////////////////////
+// List.js supplement
+// 
+// Require
+// * {valueNames: [ { data: ['index'] } ]} in options for List instance
+// * index value is unique.
+// * using List.js with table tag
+
+const addEventListenerIfNotYet = (listElement, selectorFragment, type, listener) => {
+    for (const elmt of listElement.querySelectorAll(`${selectorFragment}:not([data-${type}-attached])`)) {
+        elmt.addEventListener(type, listener);
+        elmt.setAttribute(`data-${type}-attached`, true);
+    }
+};
+
+const getListItemValuesFromEvent = (event, list) => {
+    const tr = event.target.closest('tr');
+    const index = tr.getAttribute('data-index');
+    const item = list.get('index', index)[0];
+    return item.values();
+};
+
+/**
+ * removeItemsFromTail
+ * @param list List.js instance
+ * @param count how many items to remove. zero or negative is allowed and it does nothing.
+ */
+const removeItemsFromTail = (list, count) => {
+    while (0 < count--) {
+        const itm = list.items[list.items.length - 1];
+        const idx = itm.values()['index'];
+        list.remove('index', idx);
+    }
+};
+
+const sortByIndex = (ai, bi) => {
+    const av = ai.values()['index'];
+    const bv = bi.values()['index'];
+    return (av === bv) ? 0 : (av < bv) ? -1 : +1;
+}
 
 ////////////////////////////////////////
 // Recently Opened List
@@ -68,50 +123,98 @@ var recentlyOpenedOptions = {
         { data: ['index'] },
         'queryString',
     ],
-    listClass: 'recentlyOpenedList',
     item: 'recentlyOpenedItemTemplate',
 };
 
 const recentlyOpenedList = new List('recentlyOpenedContainer', recentlyOpenedOptions);
 recentlyOpenedList.clear(); // remove template row
+let recentlyOpenedListLastIndex = 0;
 
 const addToRecentlyOpened = (queryObject, url) => {
     // Add pathname because board name is in it.
     // In the future, if the search params can contain board names for multiple board search on Canny side,
     // consider remove this part.
     const queryString = url.pathname + url.search;
-    const index = recentlyOpenedList.items.length;
-    const hobj = { queryString, queryObject, index };
-    console.log({ hobj });
+
+    const hobj = { queryString, queryObject };
+    hobj['index'] = ++recentlyOpenedListLastIndex;
+
+    // limit items count to configured maximum
+    removeItemsFromTail(recentlyOpenedList,
+        recentlyOpenedList.items.length - config.maximumRecentlyOpenedItems - 1); // -1 is a room for new.
     recentlyOpenedList.add(hobj);
+    recentlyOpenedList.sort('', { sortFunction: sortByIndex, order: 'desc' });
+
+    // TODO write to session storage (and load at initialization)
 };
 
-// attach event listeners for newly created elements
 recentlyOpenedList.on('updated', (list) => {
-    for (const elmt of list.list.querySelectorAll('input[name=loadToTheForm]:not([data-attached])')) {
-        elmt.addEventListener('click', loadToTheForm);
-        elmt.setAttribute('data-attached', true);
-    }
+    // attach event listeners for newly created elements
+    addEventListenerIfNotYet(list.list, 'input[name=loadButton]', 'click', loadToForm);
+    addEventListenerIfNotYet(list.list, 'input[name=stockButton]', 'click', stockItem);
 });
 
-const loadToTheForm = (event) => {
-    const tr = event.target.closest('tr');
-    const index = tr.getAttribute('data-index');
-    const item = recentlyOpenedList.get('index', index)[0];
-    const hobj = item.values();
-
+const loadToForm = (event) => {
+    const hobj = getListItemValuesFromEvent(event, recentlyOpenedList);
     loadQueryObjectToForm(hobj.queryObject);
     return false;
 };
 
-document.getElementById('clearRecentlyOpenedButton').addEventListener('click', () => {
-    recentlyOpenedList.clear();
-    // TODO write to storage
-});
-
+const stockItem = (event) => {
+    const hobj = getListItemValuesFromEvent(event, recentlyOpenedList);
+    addToStockedQuery(hobj);
+    return false;
+};
 
 ////////////////////////////////////////
-// Query form functions
+// Stocked Query
+
+var stockedQueryOptions = {
+    valueNames: [
+        { data: ['index'] },
+        'queryString',
+    ],
+    item: 'stockedQueryItemTemplate',
+};
+
+const stockedQueryList = new List('stockedQueryContainer', stockedQueryOptions);
+stockedQueryList.clear(); // remove template row
+let stockedQueryListLastIndex = 0;
+
+const addToStockedQuery = (historyObject) => {
+    // clone it because we need another index for this list.
+    const hobj = JSON.parse(JSON.stringify(historyObject));
+    hobj['index'] = ++stockedQueryListLastIndex;
+
+    stockedQueryList.add(hobj);
+    stockedQueryList.sort('', { sortFunction: sortByIndex, order: 'desc' });
+
+    // TODO write to local storage (and load at initialization)
+};
+
+stockedQueryList.on('updated', (list) => {
+    addEventListenerIfNotYet(list.list, 'input[name=loadButton]', 'click',
+        (event) => {
+            const hobj = getListItemValuesFromEvent(event, stockedQueryList);
+            loadQueryObjectToForm(hobj.queryObject);
+            return false;
+        });
+    addEventListenerIfNotYet(list.list, 'input[name=deleteButton]', 'click',
+        (event) => {
+            const hobj = getListItemValuesFromEvent(event, stockedQueryList);
+            stockedQueryList.remove('index', hobj['index']);
+            // TODO write to local storage
+            return false;
+        });
+});
+
+document.getElementById('clearStockedQueryButton').addEventListener('click', () => {
+    stockedQueryList.clear();
+    // TODO delete local storage
+});
+
+////////////////////////////////////////
+// Query form
 // 
 // HTML Structure:
 // <select>
@@ -169,7 +272,8 @@ const openCannyAllBoards = () => {
         popupGuide.classList.remove('hidden');
         popupGuide.focus();
     }
-    // TODO update recently opened
+    // TODO update recently opened list
+    // also add "allBoards: true" ? (reusable if we add "re-search" button)
 }
 
 ////////////////////////////////////////
@@ -184,12 +288,12 @@ const openCannyAllBoards = () => {
 //     boardURLName: "feature-requests",
 // };
 
-const composeQueryObjectFromForm = (boardOptElment) => {
+const composeQueryObjectFromForm = (boardOptElement) => {
     const qobj = {};
 
-    const optgroup = boardOptElment.parentElement;
+    const optgroup = boardOptElement.parentElement;
     qobj.baseURL = optgroup.getAttribute('data-baseURL');
-    qobj.boardURLName = boardOptElment.value;
+    qobj.boardURLName = boardOptElement.value;
 
     const search = searchText.value;
     if (search !== '') {
@@ -287,9 +391,8 @@ const convertQueryObjectToURL = (qobj) => {
 const initialize = () => {
     setupBoardSelect(boardSelect, cannySiteData);
 
-    // enable experiment UI
-    const params = (new URL(document.location)).searchParams;
-    if (params.get('experiment') !== null) {
+    if (config.experiment) {
+        // enable experiment UI
         document.getElementById('experimentalFeaturesDiv').classList.remove('hidden');
     }
 }

@@ -116,18 +116,51 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody class="recentlyOpenedList">
+                <tbody class="list">
                     <tr id="recentlyOpenedItemTemplate">
                         <td class="queryString"></td>
                         <!-- <td class="memo"></td> -->
                         <td>
-                            <input type="button" value="load to the form" name="loadToTheForm">
+                            <input type="button" value="Fill the Form" name="loadButton"
+                                title="Fill the form with this entry to search again">
+                            <input type="button" value="Stock this" name="stockButton"
+                                title="Stock this entry in stored list for future reuse">
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <input type="button" id="clearRecentlyOpenedButton" value="Clear Recently Opened">
+
+        <h4>Stocked</h4>
+        <div id="stockedQueryContainer" class="tableContainer">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Query</th>
+                        <!-- <th>Memo</th> -->
+                        <th>
+                            <!--operation buttons-->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+                    <tr id="stockedQueryItemTemplate">
+                        <td class="queryString"></td>
+                        <!-- <td class="memo"></td> -->
+                        <td>
+                            <input type="button" value="Fill the Form" name="loadButton"
+                                title="Fill the form with this entry to search again">
+                            <input type="button" value="Delete" name="deleteButton"
+                                title="Delete this entry from stored list">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <input type="button" id="clearStockedQueryButton" value="Delete all entries">
+        <div class="note">
+            Note: This list is automatically stored into local storage of your browser.
+        </div>
     </div>
     <h3>
         Links
