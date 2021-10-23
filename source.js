@@ -118,18 +118,60 @@ const sortByIndex = (ai, bi) => {
     return (av === bv) ? 0 : (av < bv) ? -1 : +1;
 }
 
-////////////////////////////////////////
-// Recently Opened List
 
+////////////////////////////////////////
 // hboj: History Object
 //
 // const aHistoryObjectExample = {
 //     index: 2, // temporary 'id'
 //     queryString: '/open-beta?status=planned',  // to identify query for human, not for the program
 //     queryObject: {/* see Query Object */},
-//     memo: "Check open beta",
-//     /* lastOpened: ...etc. */
+//     label: 'Check open beta',
+//     action: 'REUSE_WINDOW', // 'REUSE_WINDOW', 'NEW_WINDOW', 'ALL_BOARDS'
+//     /* lastOpened: ...etc.? */
 // }
+
+const createHistoryObject = (queryObject, url, action) => {
+    let qhead = '';
+    switch (action) {
+        case 'NEW_WINDOW':
+            qhead = 'N' + url.pathname;
+            break;
+        case 'REUSE_WINDOW':
+            qhead = 'R' + url.pathname;
+            break;
+        case 'ALL_BOARDS':
+            qhead = '*';
+            break;
+    }
+
+    // Add pathname because board name is in it.
+    // In the future, if the search params can contain board names for multiple board search on Canny side,
+    // consider remove this part.
+    const queryString = qhead + url.search;
+    const label = '';
+    const hobj = { queryString, queryObject, action, label };
+    return hobj;
+};
+
+const execHistoryObject = (hobj) => {
+    loadQueryObjectToForm(hobj.queryObject);
+
+    switch (hobj.action) {
+        case 'NEW_WINDOW':
+            openCanny(true);
+            break;
+        case 'REUSE_WINDOW':
+            openCanny(false);
+            break;
+        case 'ALL_BOARDS':
+            openCannyAllBoards();
+            break;
+    }
+};
+
+////////////////////////////////////////
+// Recently Opened List
 
 var recentlyOpenedOptions = {
     valueNames: [
@@ -143,12 +185,8 @@ var recentlyOpenedOptions = {
 const recentlyOpenedList = new List('recentlyOpenedContainer', recentlyOpenedOptions);
 let recentlyOpenedListLastIndex = 0;
 
-const addToRecentlyOpened = (queryObject, url) => {
-    // Add pathname because board name is in it.
-    // In the future, if the search params can contain board names for multiple board search on Canny side,
-    // consider remove this part.
-    const queryString = url.pathname + url.search;
-    const hobj = { queryString, queryObject };
+const addToRecentlyOpened = (queryObject, url, action) => {
+    const hobj = createHistoryObject(queryObject, url, action)
     hobj['index'] = ++recentlyOpenedListLastIndex;
 
     if (recentlyOpenedListLastIndex === 1) {
@@ -218,7 +256,6 @@ const addToStockedQueryInternal = (historyObject) => {
 const addToStockedQuery = (historyObject) => {
     // clone it because we need another index for this list.
     const hobj = JSON.parse(JSON.stringify(historyObject));
-    hobj.label ??= '';
 
     addToStockedQueryInternal(hobj);
     saveStockedQuery();
@@ -285,13 +322,9 @@ const handleKeyCellDisplay = (event) => {
     // TODO? support ArrowDown, ArrowUp
 };
 
-
 const handleSearchButton = (event) => {
     const hobj = getListItemValuesFromEvent(event, stockedQueryList);
-    loadQueryObjectToForm(hobj.queryObject);
-
-    // TODO do same condition (reuse-window, new-window, all-boards)
-    openCanny(false);
+    execHistoryObject(hobj);
 
     return false;
 };
@@ -431,14 +464,16 @@ const openCanny = (isNewWin) => {
     const url = convertQueryObjectToURL(qobj);
     const win = window.open(url, isNewWin ? '_blank' : 'cannyWindow');
 
-    addToRecentlyOpened(qobj, url);
+    addToRecentlyOpened(qobj, url, (isNewWin ? 'NEW_WINDOW' : 'REUSE_WINDOW'));
 };
 
 const openCannyAllBoards = () => {
     let maybeBlocked = false;
+    let qobj;
+    let url;
     for (const opt of boardSelect.options) {
-        const qobj = composeQueryObjectFromForm(opt);
-        const url = convertQueryObjectToURL(qobj);
+        qobj = composeQueryObjectFromForm(opt);
+        url = convertQueryObjectToURL(qobj);
         const board = opt.value;
         const win = window.open(url, board); // windows are always reused for all-boards-search
         if (win === null) {
@@ -450,8 +485,7 @@ const openCannyAllBoards = () => {
         popupGuide.classList.remove('hidden');
         popupGuide.focus();
     }
-    // TODO update recently opened list
-    // also add "allBoards: true" ? (reusable if we add "re-search" button)
+    addToRecentlyOpened(qobj, url, 'ALL_BOARDS');
 }
 
 ////////////////////////////////////////
