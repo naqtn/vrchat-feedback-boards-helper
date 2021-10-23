@@ -99,7 +99,7 @@
             <input type="button" id="openBoardsButton" value="Search (from all Boards)">
         </div>
     </form>
-    <div class="note">
+    <div class="guide-note">
         Note: Sort "default" probably means "relevance" when Search text is specified. If not, it means "new".
     </div>
 
@@ -110,20 +110,26 @@
                 <thead>
                     <tr>
                         <th>Query</th>
-                        <!-- <th>Memo</th> -->
-                        <th>
+                        <th style="min-width: 3em;">
                             <!--operation buttons-->
                         </th>
                     </tr>
                 </thead>
-                <tbody class="list">
+                <tbody class="recentlyOpenedList">
+                    <tr>
+                        <td colspan="2" style="text-align: center; width: 20em;">no entries</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table style="display: none;">
+                <!-- List.js doesn't work with template tag. use "display: none;" alternatively -->
+                <tbody>
                     <tr id="recentlyOpenedItemTemplate">
                         <td class="queryString"></td>
-                        <!-- <td class="memo"></td> -->
                         <td>
                             <input type="button" value="Fill the Form" name="loadButton"
                                 title="Fill the form with this entry to search again">
-                            <input type="button" value="Stock this" name="stockButton"
+                            <input type="button" value="Stock" name="stockButton"
                                 title="Stock this entry in stored list for future reuse">
                         </td>
                     </tr>
@@ -137,23 +143,42 @@
                 <thead>
                     <tr>
                         <th>Query</th>
-                        <th style="width: 40%" title="Click cell to edit note">Note</th>
+                        <th style="width: 40%" title="Click cell to write short note">Label</th>
                         <th>
                             <!--operation buttons-->
                         </th>
                     </tr>
                 </thead>
                 <tbody class="list">
+                    <tr>
+                        <td colspan="3" style="text-align: center; width: 20em;">no entries</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table style="display: none;">
+                <tbody>
                     <tr id="stockedQueryItemTemplate">
                         <td class="queryString"></td>
-                        <td style="height:100%"> <!-- to expand div height https://stackoverflow.com/a/7600749 -->
-                            <!-- FIXME height 80% is a makeshift. not accurate -->
-                            <div name="displayLook" class="note cellDisplay" tabindex="0" style="height: 80%;"></div>
+                        <td class="cellHightFix">
+                            <!--
+                            For Mouse operation:
+                            class cellHightFix and height on following div are to fill td height by div.
+                            This div also fill td width because display is block.
+                            FIXME "height: 75%;" is a makeshift. not accurate. see cellHightFix in CSS file.
+
+                            For Keyboard operation:
+                            This div is focusable by tabindex.
+                         -->
+                            <div name="displayLook" class="label cellDisplay" tabindex="0" style="height:75%;"></div>
                             <input name="editInput" class="hidden" type="text" style="height: 100%; width: 100%;">
                         </td>
                         <td>
+                            <div class="cellDisplay"></div>
+                            <!-- a support of td height when . see cellHightFix -->
+                            <input type="button" value="Search" name="searchButton"
+                                title="Fill the form with this entry and search again immediately">
                             <input type="button" value="Fill the Form" name="loadButton"
-                                title="Fill the form with this entry to search again">
+                                title="Fill the form with this entry. you can edit form again and search with it">
                             <input type="button" value="Delete" name="deleteButton"
                                 title="Delete this entry from stored list">
                         </td>
@@ -162,12 +187,13 @@
             </table>
         </div>
         <p>
-        <input type="button" id="clearStockedQueryButton" value="Delete all entries">
+            <input type="button" id="clearStockedQueryButton" value="Delete all entries">
         <div class="note">
-                Note: Stocked list is automatically stored into local storage of your browser.
-                You can reuse it when you visit this tool again.
+            Note: Stocked list is automatically stored into local storage of your browser.
+            You can reuse it when you visit this tool again.
         </div>
     </div>
+
     <h3>
         Links
     </h3>
@@ -211,7 +237,7 @@
         , under the MIT License
     </div>
 
-    <script src="libs/list.js-2.3.1/list.min.js"></script>
+    <script src="libs/list.js-2.3.1/list.js"></script>
     <script src="source.js"></script>
 
 </body>

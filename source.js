@@ -135,10 +135,10 @@ var recentlyOpenedOptions = {
         'queryString',
     ],
     item: 'recentlyOpenedItemTemplate',
+    listClass: 'recentlyOpenedList'
 };
 
 const recentlyOpenedList = new List('recentlyOpenedContainer', recentlyOpenedOptions);
-recentlyOpenedList.clear(); // remove template row
 let recentlyOpenedListLastIndex = 0;
 
 const addToRecentlyOpened = (queryObject, url) => {
@@ -146,9 +146,12 @@ const addToRecentlyOpened = (queryObject, url) => {
     // In the future, if the search params can contain board names for multiple board search on Canny side,
     // consider remove this part.
     const queryString = url.pathname + url.search;
-
     const hobj = { queryString, queryObject };
     hobj['index'] = ++recentlyOpenedListLastIndex;
+
+    if (recentlyOpenedListLastIndex === 1) {
+        recentlyOpenedList.clear(); // remove 'no entries' row
+    }
 
     // limit items count to configured maximum
     removeItemsFromTail(recentlyOpenedList,
@@ -183,23 +186,26 @@ const stockItem = (event) => {
 const storageKeyOf = (type) => {
     return `${document.location.pathname}/${type}`;
 }
-const saveStockedStoragetype = 'StockedQuery.v1';
+const saveStockedStorageType = 'StockedQuery.v1';
 
 var stockedQueryOptions = {
     valueNames: [
         { data: ['index'] },
         'queryString',
-        'note',
+        'label',
     ],
     item: 'stockedQueryItemTemplate',
 };
 
 const stockedQueryList = new List('stockedQueryContainer', stockedQueryOptions);
-stockedQueryList.clear(); // remove template row
 let stockedQueryListLastIndex = 0;
 
 const addToStockedQueryInternal = (historyObject) => {
     historyObject['index'] = ++stockedQueryListLastIndex;
+
+    if (stockedQueryListLastIndex === 1) {
+        stockedQueryList.clear(); // remove 'no entries' row
+    }
 
     stockedQueryList.add(historyObject);
     stockedQueryList.sort('', { sortFunction: sortByIndex, order: 'desc' });
@@ -208,7 +214,7 @@ const addToStockedQueryInternal = (historyObject) => {
 const addToStockedQuery = (historyObject) => {
     // clone it because we need another index for this list.
     const hobj = JSON.parse(JSON.stringify(historyObject));
-    hobj.note = "";
+    hobj.label = "";
     addToStockedQueryInternal(hobj);
     saveStockedQuery();
 };
@@ -221,7 +227,7 @@ const startCellEdit = (event) => {
     editElmt.classList.remove('hidden');
 
     const hobj = getListItemValuesFromEvent(event, stockedQueryList);
-    editElmt.value = hobj.note;
+    editElmt.value = hobj.label;
     editElmt.setAttribute('data-escaped', 'false');
     editElmt.focus();
 
@@ -238,7 +244,7 @@ const completeCellEdit = (event) => {
     if (editElmt.getAttribute('data-escaped') === 'false') {
         const item = getListItemFromEvent(event, stockedQueryList);
         const hobj = item.values();
-        hobj.note = editElmt.value;
+        hobj.label = editElmt.value;
         item.values(hobj);
 
         saveStockedQuery();
@@ -262,15 +268,31 @@ const handleKeyCellEditing = (event) => {
 const handleKeyCellDisplay = (event) => {
     const editElmt = event.currentTarget;
     switch (event.key) {
-        case 'Enter': // fall through
-        case 'Space':
+        // fall through
+        case 'Enter':
+        case 'Space': // Firefox
+        case ' ': // Chrome
+            event.preventDefault();
             startCellEdit(event);
-            break;
+            return true;
     }
+    return false;
+    // TODO? support ArrowDown, ArrowUp
 };
 
 
+const handleSearchButton = (event) => {
+    const hobj = getListItemValuesFromEvent(event, stockedQueryList);
+    loadQueryObjectToForm(hobj.queryObject);
+
+    // TODO do same condition (reuse-window, new-window, all-boards)
+    openCanny(false);
+
+    return false;
+};
+
 stockedQueryList.on('updated', (list) => {
+    addEventListenerIfNotYet(list.list, 'input[name=searchButton]', 'click', handleSearchButton);
     addEventListenerIfNotYet(list.list, 'input[name=loadButton]', 'click',
         (event) => {
             const hobj = getListItemValuesFromEvent(event, stockedQueryList);
@@ -294,8 +316,9 @@ stockedQueryList.on('updated', (list) => {
 
 const clearStockedQuery = (event) => {
     stockedQueryList.clear();
+    // TODO reshow "no entries" indicator.
 
-    const type = saveStockedStoragetype;
+    const type = saveStockedStorageType;
     const key = storageKeyOf(type);
     localStorage.removeItem(key);
 
@@ -310,7 +333,7 @@ const saveStockedQuery = () => {
         data.push(item.values());
     }
     data.reverse(); // The list is sorted in desc order. Reverse it to original order to save. 
-    const type = saveStockedStoragetype;
+    const type = saveStockedStorageType;
     const persistObj = { type, data };
 
     const key = storageKeyOf(type);
@@ -319,11 +342,9 @@ const saveStockedQuery = () => {
 };
 
 const loadStockedQuery = () => {
-    const type = saveStockedStoragetype;
+    const type = saveStockedStorageType;
     const key = storageKeyOf(type);
     const value = localStorage[key];
-
-    stockedQueryList.clear(); // clear even if anything stored
 
     if (value) {
         const persistObj = JSON.parse(value);

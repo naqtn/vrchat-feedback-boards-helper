@@ -15,7 +15,7 @@ form {
 div {
   padding: 0.15em;
 }
-.note {
+.guide-note {
   font-size: 80%;
 }
 fieldset {
@@ -54,6 +54,23 @@ tr:nth-child(even) {
 .tableContainer {
   overflow-x:auto;
 }
+.cellDisplay {
+  border:transparent solid 2px;
+}
 .cellDisplay:focus {
-  border:blue dotted;
+  border:blue solid 2px;
+}
+
+/* 
+to make <div> fill <td> height.
+https://stackoverflow.com/q/36575846
+https://stackoverflow.com/a/36576083
+*/
+.cellHightFix {
+  height: 1px;
+}
+@-moz-document url-prefix() {
+   .cellHightFix {
+        height: 100%;
+    }
 }
