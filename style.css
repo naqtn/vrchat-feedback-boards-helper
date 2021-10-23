@@ -18,6 +18,11 @@ div {
 .guide-note {
   font-size: 80%;
 }
+.guide-note ul {
+  margin: 0em;
+  padding-inline-start: 2em;
+}
+
 fieldset {
   display: inline-block;
   margin: 0.1em;

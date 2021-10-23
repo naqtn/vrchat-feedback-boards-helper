@@ -22,7 +22,8 @@
             <select id="boardSelect"></select>
         </div>
         <div>
-            Search text: <input type="search" id="searchText" size="80">
+            Search text: <input type="search" id="searchText" size="85"
+                title="Seaching words / blank is fine / Canny does some fuzzy search and no extra syntax :(">
         </div>
         <div>
             Sort:
@@ -100,10 +101,10 @@
         </div>
     </form>
     <div class="guide-note">
-        Note: Sort "default" probably means "relevance" when Search text is specified. If not, it means "new".
+        Note: Sort "default" probably means "relevance" when "search text" is specified. If not, it means "new".
     </div>
 
-    <div id="experimentalFeaturesDiv" class="hidden">
+    <div>
         <h4>Recently Opened</h4>
         <div id="recentlyOpenedContainer" class="tableContainer">
             <table>
@@ -135,8 +136,11 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="guide-note">
+                <p>
+                    The newer one is on top.
+            </div>
         </div>
-
         <h4>Stocked</h4>
         <div id="stockedQueryContainer" class="tableContainer">
             <table>
@@ -189,10 +193,20 @@
         <p>
             <input type="button" id="clearStockedQueryButton" value="Delete all entries">
             <input type="button" id="undoDeleteStockedQueryButton" value="Undo Delete" disabled>
-        <div class="note">
-            Note: Stocked list is automatically stored into local storage of your browser.
-            You can reuse it when you visit this tool again.
+        <div class="guide-note">
+            <ul>
+                <li>
+                    This stocked list is automatically stored into local storage of your browser.
+                    You can reuse it when you visit this tool again.
+                </li>
+                <li>
+                    "Label" is something like a short note. Click the cell to write.
+                </li>
+            </ul>
         </div>
+    </div>
+
+    <div id="experimentalFeaturesDiv" class="hidden">
     </div>
 
     <h3>

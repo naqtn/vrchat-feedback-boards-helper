@@ -23,7 +23,7 @@ What you can do with this tool are (I mean what you can't do on Canny's UI):
 - Use sort ordering "old". (most oldest post on the first)
 - Reuse search condition clearly. (You can modify condition and try it again. You can get results on each separated window and compare these.)
 - Search from all Boards.
-
+- Store search conditions and reuse later.
 
 ## Setup for "search from all Boards"
 
