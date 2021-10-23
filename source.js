@@ -603,6 +603,7 @@ const convertQueryObjectToURL = (qobj) => {
 const initialize = () => {
     setupBoardSelect(boardSelect, cannySiteData);
     loadStockedQuery();
+    updateUndoDeleteStockedQueryButton();
 
     if (config.experiment) {
         // enable experiment UI
