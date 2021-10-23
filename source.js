@@ -67,6 +67,8 @@ document.getElementById('popupGuideClose').addEventListener('click', () => { pop
 
 // Stocked Query
 document.getElementById('clearStockedQueryButton').addEventListener('click', (e) => clearStockedQuery(e));
+const undoDeleteStockedQueryButton = document.getElementById('undoDeleteStockedQueryButton');
+undoDeleteStockedQueryButton.addEventListener('click', (e) => undoDeleteStockedQuery(e));
 
 
 ////////////////////////////////////////
@@ -200,6 +202,8 @@ var stockedQueryOptions = {
 const stockedQueryList = new List('stockedQueryContainer', stockedQueryOptions);
 let stockedQueryListLastIndex = 0;
 
+const deletedStockedQuery = [];
+
 const addToStockedQueryInternal = (historyObject) => {
     historyObject['index'] = ++stockedQueryListLastIndex;
 
@@ -214,7 +218,8 @@ const addToStockedQueryInternal = (historyObject) => {
 const addToStockedQuery = (historyObject) => {
     // clone it because we need another index for this list.
     const hobj = JSON.parse(JSON.stringify(historyObject));
-    hobj.label = "";
+    hobj.label ??= '';
+
     addToStockedQueryInternal(hobj);
     saveStockedQuery();
 };
@@ -304,6 +309,8 @@ stockedQueryList.on('updated', (list) => {
         (event) => {
             const hobj = getListItemValuesFromEvent(event, stockedQueryList);
             stockedQueryList.remove('index', hobj['index']);
+            deletedStockedQuery.push(hobj);
+            updateUndoDeleteStockedQueryButton();
             saveStockedQuery();
             return false;
         }
@@ -315,6 +322,14 @@ stockedQueryList.on('updated', (list) => {
 });
 
 const clearStockedQuery = (event) => {
+    const undo = [];
+    for (const item of stockedQueryList.items) {
+        undo.push(item.values());
+    }
+    undo.reverse(); // because the list is desc sorted.
+    deletedStockedQuery.push(undo);
+    updateUndoDeleteStockedQueryButton();
+
     stockedQueryList.clear();
     // TODO reshow "no entries" indicator.
 
@@ -324,6 +339,26 @@ const clearStockedQuery = (event) => {
 
     return false;
 };
+
+const updateUndoDeleteStockedQueryButton = () => {
+    undoDeleteStockedQueryButton.disabled = (deletedStockedQuery.length === 0);
+};
+
+const undoDeleteStockedQuery = (event) => {
+    const deleted = deletedStockedQuery.pop();
+    if (deleted) {
+        if (deleted instanceof Array) {
+            for (const o of deleted) {
+                addToStockedQuery(o);
+            }
+        } else {
+            addToStockedQuery(deleted);
+        }
+        updateUndoDeleteStockedQueryButton();
+    }
+    return false;
+};
+
 
 const saveStockedQuery = () => {
     const items = stockedQueryList.items;
