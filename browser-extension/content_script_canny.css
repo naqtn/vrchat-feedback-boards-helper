@@ -1,0 +1,7 @@
+body .hidePost {
+    display: none !important;
+}
+
+.markMyPost {
+    background-color: lightblue;
+}

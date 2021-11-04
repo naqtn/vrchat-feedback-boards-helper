@@ -5,6 +5,11 @@ console.log('Hi from content_script_canny.js');
 
 const cannyPageBase = 'https://feedback.vrchat.com';
 
+const currentSettings = {
+    isMarkMyPosts: false,
+    isHideOthersPosts: false,
+};
+
 const PageType = {
     UNKNOWN: 'PAGE_TYPE_UNKNOWN',
     CANNY_BOARD: 'PAGE_TYPE_CANNY_BOARD',
@@ -188,13 +193,24 @@ const fetchPostInfo = (postLink) => {
  */
 const decorateBoardPageWithPostInfo = (postInfo) => {
     const query = `a.postLink[href="${postInfo.postLink}"]`;
-    console.log('decorateBoardPageWithPostInfo query=', query);
+    // console.log('decorateBoardPageWithPostInfo query=', query);
     const links = document.querySelectorAll(query);
     for (const postLink of links) {
-        if (postLink && postInfo.isAuthorIsViewer) {
-            const postListItem = postLink.closest('.postListItem');
-            if (postListItem) { // could be null. (in Notification popup) 
-            postListItem.style.cssText += 'background-color: lightblue';
+        const postListItem = postLink.closest('.postListItem');
+        // postListItem could be null. (for instance, this postLink is in Notification popup) 
+        if (postListItem) {
+            if (postInfo.isAuthorIsViewer) {
+                if (currentSettings.isMarkMyPosts) {
+                    postListItem.classList.add('markMyPost');
+                } else {
+                    postListItem.classList.remove('markMyPost');
+                }
+            } else {
+                if (currentSettings.isHideOthersPosts) {
+                    postListItem.classList.add('hidePost');
+                } else {
+                    postListItem.classList.remove('hidePost');
+                }
             }
         }
     }
@@ -272,16 +288,42 @@ const setupMutationObserverToInvestigate = () => {
 };
 
 
-const main = () => {
-    console.log('content_script_canny.js main');
+/**
+ * apply settings (change decoration style etc.)
+ * settings param could be partial settings object
+ */
+const applySettings = (settings) => {
+    console.log('applySettings settings=', settings);
+
+    // difference settings or configurations
+    Object.assign(currentSettings, settings);
+
     const pageType = detectPageType();
     console.log('pageType=' + pageType);
-
     if (pageType === PageType.CANNY_BOARD) {
-        // Decorate items initially showed
         const postLinks = findCannyPostLinks(document.body);
         decorateBoardPageWithPostLinks(postLinks);
     }
+};
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log('onMessage content script message=', message);
+    switch (message.type) {
+        case 'getCurrentSettings':
+            sendResponse(currentSettings);
+            break;
+        case 'applySettings':
+            applySettings(message.data);
+            break;
+    }
+});
+
+const main = () => {
+    console.log('content_script_canny.js main');
+
+    // Setup initial settings.
+    // Decorate items initially showed as a side effect.
+    applySettings({});
 
     setupMutationObserver();
 

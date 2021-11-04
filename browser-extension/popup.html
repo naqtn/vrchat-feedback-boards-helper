@@ -4,11 +4,35 @@
 <head>
 </head>
 
-<body style="background-color: dimgray; color: moccasin;">
-  <div style="margin: 100px;">
-    VRChat feedback boards helper extension
+<body style="background-color: dimgray; color: moccasin; width: 250px;">
+
+  <div style="margin: 10px;">
+    <div>VRChat feedback boards helper browser extension</div>
+
+    <div id="settingsInputs">
+      <h3>Settings for this tab</h3>
+      <ul style="list-style-type: none; padding-inline-start: 10px;">
+        <li>
+          <label>
+            <input type="checkbox" name="isMarkMyPosts">
+            Mark my posts
+          </label>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" name="isHideOthersPosts">
+            Hide other people's posts
+          </label>
+        </li>
+    </div>
+
+    <div id="testUI" style="display: none;">
+      <button id="testButton">test</button>
+      <textarea id="debugTextarea">debugTextarea</textarea>
+    </div>
   </div>
-  nothing here yet.
+
+  <script src="popup.js"></script>
 </body>
 
 </html>
