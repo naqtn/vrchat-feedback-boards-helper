@@ -3,8 +3,6 @@
 console.log('Hi from content_script_canny.js');
 
 
-const cannyPageBase = 'https://feedback.vrchat.com';
-
 const currentSettings = {
     isMarkMyPosts: false,
     isHideOthersPosts: false,
@@ -138,8 +136,8 @@ const extractPostInfoFromDataObject = (dataObj, postLink) => {
  */
 const fetchPostInfo = (postLink) => {
     return new Promise((resolve, reject) => {
-
-        const urlStr = cannyPageBase + postLink;
+        const relativeBase = window.location.origin;
+        const urlStr = relativeBase + postLink;
         const initObj = {
             method: 'GET',
         };
