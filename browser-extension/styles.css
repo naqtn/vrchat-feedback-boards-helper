@@ -1,0 +1,9 @@
+.displayNone {
+    display: none;
+}
+
+.popupBody {
+    background-color: dimgray;
+    color: moccasin;
+    width: 300px;
+}

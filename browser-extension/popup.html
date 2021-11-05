@@ -2,15 +2,28 @@
 <html>
 
 <head>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
-<body style="background-color: dimgray; color: moccasin; width: 250px;">
+<body class="popupBody">
 
   <div style="margin: 10px;">
-    <div>VRChat feedback boards helper browser extension</div>
+    <div>VRChat Feedback Boards Helper Browser Extension</div>
 
-    <div id="settingsInputs">
-      <h3>Settings for this tab</h3>
+    <div id="notWorkNowMessage">
+      <h3> Not working on this tab now </h3>
+
+      <div style="padding-left: 10px;">
+        The extension works only on
+        <ul style="list-style-type: none; padding-inline-start: 10px; margin: 2px;">
+          <li>https://feedback.vrchat.com/</li>
+          <li>https://*.canny.io/</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="settingsInputs" class="displayNone">
+      <h3>Settings for now</h3>
       <ul style="list-style-type: none; padding-inline-start: 10px;">
         <li>
           <label>

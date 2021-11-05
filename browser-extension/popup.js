@@ -30,13 +30,16 @@ const fillTheFormWithActiveTabCurrentSettings = async () => {
             if (!response) {
                 // If this tab is not accessible from this extension, 
                 // sendMessage will fail. and response becomes undefined value.
-                debugTextarea.value += '\nlastError=' + JSON.stringify(chrome.runtime.lastError);
-                debugTextarea.value += '\ntab=' + JSON.stringify(tab);
+                // debugTextarea.value += '\nlastError=' + JSON.stringify(chrome.runtime.lastError);
+                // debugTextarea.value += '\ntab=' + JSON.stringify(tab);
                 return;
             }
-            debugTextarea.value = 'response=' + JSON.stringify(response);
+            // debugTextarea.value = 'response=' + JSON.stringify(response);
+
             activeTabId = tab.id;
             fillTheForm(response);
+            document.getElementById('notWorkNowMessage').classList.add('displayNone');
+            document.getElementById('settingsInputs').classList.remove('displayNone');
         });
 };
 

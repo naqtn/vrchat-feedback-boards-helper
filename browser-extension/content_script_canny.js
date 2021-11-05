@@ -2,18 +2,40 @@
 'use strict';
 console.log('Hi from content_script_canny.js');
 
-
-const currentSettings = {
-    isMarkMyPosts: false,
-    isHideOthersPosts: false,
-};
-
 const PageType = {
     UNKNOWN: 'PAGE_TYPE_UNKNOWN',
     CANNY_BOARD: 'PAGE_TYPE_CANNY_BOARD',
     CANNY_POST: 'PAGE_TYPE_CANNY_POST',
 };
 Object.freeze(PageType);
+
+
+// This must not conflict with the site.
+const settingsKey = 'feedback-boards-helper-settings-9336cbd2-d106-4850-942e-3b1ff754a437';
+
+const getInitialSettings = () => {
+    const storageVal = sessionStorage.getItem(settingsKey);
+    if (storageVal) {
+        try {
+            return JSON.parse(storageVal);
+        } catch (SyntaxError) {
+            // empty
+        }
+    }
+    // TODO try to load from chrome.storage
+    return {
+        isMarkMyPosts: false,
+        isHideOthersPosts: false,
+    };
+}
+
+const currentSettings = getInitialSettings();
+
+const storeSettings = (partialSettingsObject) => {
+    Object.assign(currentSettings, partialSettingsObject);
+    const str = JSON.stringify(currentSettings);
+    sessionStorage.setItem(settingsKey, str);
+};
 
 /**
  * Detect the type of current page.
@@ -293,8 +315,7 @@ const setupMutationObserverToInvestigate = () => {
 const applySettings = (settings) => {
     console.log('applySettings settings=', settings);
 
-    // difference settings or configurations
-    Object.assign(currentSettings, settings);
+    storeSettings(settings);
 
     const pageType = detectPageType();
     console.log('pageType=' + pageType);
