@@ -239,7 +239,7 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
             const postInfoExt = ensurePostInfoExtDiv(postListItem);
 
             const nameSpan = postInfoExt.querySelector('.ext_name');
-            nameSpan.innerText = (currentSettings.isAddAuthorName)? postInfo.authorName: '';
+            nameSpan.innerText = (currentSettings.isAddAuthorName) ? postInfo.authorName : '';
 
             if (postInfo.isAuthorIsViewer) {
                 if (currentSettings.isMarkMyPosts) {
@@ -292,7 +292,10 @@ const setupMutationObserver = () => {
             // console.log('mutation=', mutation);
             if (mutation.type === 'childList') {
                 for (const node of mutation.addedNodes) {
-                    if ((node.nodeName === 'div') && (node.className === 'postListItem')){
+                    // When you scroll down to "read more" `.postListItem` will be added.
+                    // When you do browser-back whole elements under `.publicContainer` will be replaced.
+                    // So, to simplify, we search from added div, whatever it is.
+                    if (node.nodeName === 'DIV') {
                         const postLinks = findCannyPostLinks(node);
                         decorateBoardPageWithPostLinks(postLinks);
                     }
