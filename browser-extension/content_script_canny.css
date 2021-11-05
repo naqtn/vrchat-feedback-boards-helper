@@ -6,6 +6,9 @@ body .hidePost {
     background-color: lightblue;
 }
 
+.ext_postInfoExt {
+    padding-bottom: 3px;
+}
 .ext_postInfoExt .ext_name {
     font-weight: 600;
 }
