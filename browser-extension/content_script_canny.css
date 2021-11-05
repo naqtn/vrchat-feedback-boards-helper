@@ -5,3 +5,7 @@ body .hidePost {
 .markMyPost {
     background-color: lightblue;
 }
+
+.ext_postInfoExt .ext_name {
+    font-weight: 600;
+}

@@ -26,6 +26,7 @@ const getInitialSettings = () => {
     return {
         isMarkMyPosts: false,
         isHideOthersPosts: false,
+        isAddAuthorName: false,
     };
 }
 
@@ -209,6 +210,22 @@ const fetchPostInfo = (postLink) => {
 
 
 /**
+ * Ensure an injected PostInfo div exists
+ */
+const ensurePostInfoExtDiv = (postListItem) => {
+    const found = postListItem.querySelector('.ext_postInfoExt');
+    if (found) {
+        return found;
+    }
+    const newOne = document.createElement('div');
+    newOne.classList.add('ext_postInfoExt');
+    newOne.innerHTML = '<span class="ext_name"></span>';
+    const insertPoint = postListItem.querySelector('.postDetails').parentNode;
+    insertPoint.appendChild(newOne);
+    return newOne;
+};
+
+/**
  * Decorate current Board page with specified Post info
  */
 const decorateBoardPageWithPostInfo = (postInfo) => {
@@ -219,6 +236,11 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
         const postListItem = postLink.closest('.postListItem');
         // postListItem could be null. (for instance, this postLink is in Notification popup) 
         if (postListItem) {
+            const postInfoExt = ensurePostInfoExtDiv(postListItem);
+
+            const nameSpan = postInfoExt.querySelector('.ext_name');
+            nameSpan.innerText = (currentSettings.isAddAuthorName)? postInfo.authorName: '';
+
             if (postInfo.isAuthorIsViewer) {
                 if (currentSettings.isMarkMyPosts) {
                     postListItem.classList.add('markMyPost');
@@ -270,8 +292,10 @@ const setupMutationObserver = () => {
             // console.log('mutation=', mutation);
             if (mutation.type === 'childList') {
                 for (const node of mutation.addedNodes) {
-                    const postLinks = findCannyPostLinks(node);
-                    decorateBoardPageWithPostLinks(postLinks);
+                    if ((node.nodeName === 'div') && (node.className === 'postListItem')){
+                        const postLinks = findCannyPostLinks(node);
+                        decorateBoardPageWithPostLinks(postLinks);
+                    }
                 }
             }
         }
