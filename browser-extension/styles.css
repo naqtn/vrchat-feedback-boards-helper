@@ -1,3 +1,8 @@
+.bodyCommon {
+    background-color: dimgray;
+    color: moccasin;
+}
+
 .thinMargin {
     margin: 2px;
 }
@@ -7,8 +12,6 @@
 }
 
 .popupBody {
-    background-color: dimgray;
-    color: moccasin;
     width: 300px;
 }
 
