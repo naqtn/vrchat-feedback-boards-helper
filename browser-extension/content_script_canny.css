@@ -1,11 +1,12 @@
-body .hidePost {
+body .ext_hidePost {
     display: none !important;
 }
 
-.markAuthorPost {
+/* Do not change rule order. ext_markMyPost must be later to override previous */
+.ext_markAuthorPost {
     background-color: lightgreen;
 }
-.markMyPost {
+.ext_markMyPost {
     background-color: lightblue;
 }
 

@@ -24,12 +24,12 @@ const getInitialSettings = () => {
     }
     // TODO try to load from chrome.storage
     return {
-        isMarkMyPosts: false,
-        isHideOthersPosts: false,
-        isShowAuthorName: true,
-        isCreatedDate: true,
-        isFilterByAuthorNames: false,
-        isMarkPostsByAuthorNames: false,
+        markMyPosts: false,
+        hideOtherUsersPosts: false,
+        showAuthorName: true,
+        showCreatedDate: true,
+        filterByAuthorNames: false,
+        markPostsByAuthorNames: false,
         authorNames: [],
     };
 }
@@ -248,9 +248,9 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
             // additional info
             const postInfoExt = ensurePostInfoExtDiv(postListItem);
             const nameSpan = postInfoExt.querySelector('.ext_name');
-            nameSpan.innerText = (currentSettings.isShowAuthorName) ? postInfo.authorName : '';
+            nameSpan.innerText = (currentSettings.showAuthorName) ? postInfo.authorName : '';
             const createdSpan = postInfoExt.querySelector('.ext_created');
-            if (currentSettings.isCreatedDate) {
+            if (currentSettings.showCreatedDate) {
                 if (!postInfo.createdDateString) {
                     const date = new Date(postInfo.created);
                     postInfo.createdDateString = date.toLocaleDateString();
@@ -262,38 +262,38 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
 
             // mine or others
             if (postInfo.isAuthorIsViewer) {
-                if (currentSettings.isMarkMyPosts) {
-                    postListItem.classList.add('markMyPost');
+                if (currentSettings.markMyPosts) {
+                    postListItem.classList.add('ext_markMyPost');
                 } else {
-                    postListItem.classList.remove('markMyPost');
+                    postListItem.classList.remove('ext_markMyPost');
                 }
             } else {
-                if (currentSettings.isHideOthersPosts) {
-                    postListItem.classList.add('hidePost');
+                if (currentSettings.hideOtherUsersPosts) {
+                    postListItem.classList.add('ext_hidePost');
                 } else {
-                    postListItem.classList.remove('hidePost');
+                    postListItem.classList.remove('ext_hidePost');
                 }
             }
 
             // specified authors
             const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
-            if (currentSettings.isFilterByAuthorNames) {
+            if (currentSettings.filterByAuthorNames) {
                 if (authorIncluded) {
-                    postListItem.classList.remove('hidePost');
+                    postListItem.classList.remove('ext_hidePost');
                 } else {
-                    postListItem.classList.add('hidePost');
+                    postListItem.classList.add('ext_hidePost');
                 }
             } else {
-                postListItem.classList.remove('hidePost');
+                postListItem.classList.remove('ext_hidePost');
             }
-            if (currentSettings.isMarkPostsByAuthorNames) {
+            if (currentSettings.markPostsByAuthorNames) {
                 if (authorIncluded) {
-                    postListItem.classList.add('markAuthorPost');
+                    postListItem.classList.add('ext_markAuthorPost');
                 } else {
-                    postListItem.classList.remove('markAuthorPost');
+                    postListItem.classList.remove('ext_markAuthorPost');
                 }
             } else {
-                postListItem.classList.remove('markAuthorPost');
+                postListItem.classList.remove('ext_markAuthorPost');
             }
 
         }
