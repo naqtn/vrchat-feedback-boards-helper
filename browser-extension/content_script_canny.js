@@ -25,10 +25,9 @@ const getInitialSettings = () => {
     // TODO try to load from chrome.storage
     return {
         markMyPosts: false,
-        hideOtherUsersPosts: false,
+        visibilityFilter: 'SHOW_ALL',
         showAuthorName: true,
         showCreatedDate: true,
-        filterByAuthorNames: false,
         markPostsByAuthorNames: false,
         authorNames: [],
     };
@@ -260,42 +259,41 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
                 createdSpan.innerText = '';
             }
 
-            // mine or others
-            if (postInfo.isAuthorIsViewer) {
-                if (currentSettings.markMyPosts) {
-                    postListItem.classList.add('ext_markMyPost');
-                } else {
-                    postListItem.classList.remove('ext_markMyPost');
-                }
-            } else {
-                if (currentSettings.hideOtherUsersPosts) {
-                    postListItem.classList.add('ext_hidePost');
-                } else {
+            // Visibility Filter 
+            const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
+            switch (currentSettings.visibilityFilter) {
+                default:
+                case 'SHOW_ALL':
                     postListItem.classList.remove('ext_hidePost');
-                }
+                    break;
+                case 'ONLY_MINE':
+                    if (postInfo.isAuthorIsViewer) {
+                        postListItem.classList.remove('ext_hidePost');
+                    } else {
+                        postListItem.classList.add('ext_hidePost');
+                    }
+                    break;
+                case 'ONLY_SPECIFIED_AUTHORS_BY_NAME':
+                    if (authorIncluded) {
+                        postListItem.classList.remove('ext_hidePost');
+                    } else {
+                        postListItem.classList.add('ext_hidePost');
+                    }
+                    break;
             }
 
-            // specified authors
-            const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
-            if (currentSettings.filterByAuthorNames) {
-                if (authorIncluded) {
-                    postListItem.classList.remove('ext_hidePost');
-                } else {
-                    postListItem.classList.add('ext_hidePost');
-                }
+            // Marking
+            if (currentSettings.markMyPosts && postInfo.isAuthorIsViewer) {
+                postListItem.classList.add('ext_markMyPost');
+                postListItem.classList.remove('ext_markAuthorPost');
             } else {
-                postListItem.classList.remove('ext_hidePost');
-            }
-            if (currentSettings.markPostsByAuthorNames) {
-                if (authorIncluded) {
+                postListItem.classList.remove('ext_markMyPost');
+                if (currentSettings.markPostsByAuthorNames && authorIncluded) {
                     postListItem.classList.add('ext_markAuthorPost');
                 } else {
                     postListItem.classList.remove('ext_markAuthorPost');
                 }
-            } else {
-                postListItem.classList.remove('ext_markAuthorPost');
             }
-
         }
     }
 };

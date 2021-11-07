@@ -27,18 +27,6 @@
       <ul class="simpleList" style="padding-left: 10px;">
         <li>
           <label>
-            <input type="checkbox" name="markMyPosts">
-            Mark my posts
-          </label>
-        </li>
-        <li>
-          <label>
-            <input type="checkbox" name="hideOtherUsersPosts">
-            Hide other people's posts
-          </label>
-        </li>
-        <li>
-          <label>
             <input type="checkbox" name="showAuthorName">
             Show author name of each post
           </label>
@@ -46,24 +34,31 @@
         <li>
           <label>
             <input type="checkbox" name="showCreatedDate">
-            Show the date each post is created 
+            Show the date each post is created
           </label>
         </li>
         <li>
           <label>
-            <input type="checkbox" name="filterByAuthorNames">
-            Filter by author names
+            <input type="checkbox" name="markMyPosts">
+            Mark my posts
           </label>
         </li>
         <li>
           <label>
             <input type="checkbox" name="markPostsByAuthorNames">
-            Mark posts by author names
+            Mark posts by specified authors
           </label>
         </li>
       </ul>
 
-      <div>
+      <h4 class="thinMargin">Visibility Filter</h4>
+      <select name="visibilityFilter">
+        <option value="SHOW_ALL">Show all posts</option>
+        <option value="ONLY_MINE">Only posts that I wrote</option>
+        <option value="ONLY_SPECIFIED_AUTHORS_BY_NAME">Only posts by specified authors</option>
+      </select>
+
+      <div style="margin-top: 5px;">
         <h4 class="thinMargin" style="display:inline-block">Author Names</h4>
         <input id="addNameEntryButton" type="button" value="+" title="add one more author field">
       </div>
@@ -76,7 +71,8 @@
       <ul class="displayNone">
         <li id="authorNamesTemplate">
           <input name="authorNames" data-multiple-root="ul" type="text" value="" placeholder="author name">
-          <input data-multiple-root="ul" data-multiple-operation="remove" type="button" value="-" title="remove this field">
+          <input data-multiple-root="ul" data-multiple-operation="remove" type="button" value="-"
+            title="remove this field">
         </li>
       </ul>
 
