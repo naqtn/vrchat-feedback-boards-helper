@@ -1,3 +1,7 @@
+.thinMargin {
+    margin: 2px;
+}
+
 .displayNone {
     display: none;
 }
@@ -6,4 +10,10 @@
     background-color: dimgray;
     color: moccasin;
     width: 300px;
+}
+
+.simpleList {
+    list-style-type: none;
+    padding-inline-start: 0px;
+    margin: 2px;
 }

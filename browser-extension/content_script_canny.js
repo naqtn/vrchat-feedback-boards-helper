@@ -26,7 +26,9 @@ const getInitialSettings = () => {
     return {
         isMarkMyPosts: false,
         isHideOthersPosts: false,
-        isAddAuthorName: false,
+        isShowAuthorName: false,
+        isFilterByAuthorNames: false,
+        authorNames: ['foo', 'bar'],
     };
 }
 
@@ -220,7 +222,9 @@ const ensurePostInfoExtDiv = (postListItem) => {
     const newOne = document.createElement('div');
     newOne.classList.add('ext_postInfoExt');
     newOne.innerHTML = '<span class="ext_name"></span>';
-    const insertPoint = postListItem.querySelector('.postDetails').parentNode;
+    const postTitle = postListItem.querySelector('.postTitle');
+    const insertPoint = postTitle.parentNode;
+
     insertPoint.appendChild(newOne);
     return newOne;
 };
@@ -239,7 +243,7 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
             const postInfoExt = ensurePostInfoExtDiv(postListItem);
 
             const nameSpan = postInfoExt.querySelector('.ext_name');
-            nameSpan.innerText = (currentSettings.isAddAuthorName) ? postInfo.authorName : '';
+            nameSpan.innerText = (currentSettings.isShowAuthorName) ? postInfo.authorName : '';
 
             if (postInfo.isAuthorIsViewer) {
                 if (currentSettings.isMarkMyPosts) {
@@ -253,6 +257,16 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
                 } else {
                     postListItem.classList.remove('hidePost');
                 }
+            }
+            if (currentSettings.isFilterByAuthorNames) {
+                const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
+                if (authorIncluded) {
+                    postListItem.classList.remove('hidePost');
+                } else {
+                    postListItem.classList.add('hidePost');
+                }
+            } else {
+                postListItem.classList.remove('hidePost');
             }
         }
     }

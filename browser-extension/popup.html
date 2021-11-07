@@ -11,7 +11,7 @@
     <div>VRChat Feedback Boards Helper Browser Extension</div>
 
     <div id="notWorkNowMessage">
-      <h3> Not working on this tab now </h3>
+      <h3 class="thinMargin"> Not working on this tab now </h3>
 
       <div style="padding-left: 10px;">
         This extension works only on
@@ -23,8 +23,8 @@
     </div>
 
     <div id="settingsInputs" class="displayNone">
-      <h3>Settings for now</h3>
-      <ul style="list-style-type: none; padding-inline-start: 10px;">
+      <h3 class="thinMargin">Settings for now</h3>
+      <ul class="simpleList" style="padding-left: 10px;">
         <li>
           <label>
             <input type="checkbox" name="isMarkMyPosts">
@@ -39,15 +39,35 @@
         </li>
         <li>
           <label>
-            <input type="checkbox" name="isAddAuthorName">
-            Add author name of each post
+            <input type="checkbox" name="isShowAuthorName">
+            Show author name of each post
           </label>
         </li>
-    </div>
+        <li>
+          <label>
+            <input type="checkbox" name="isFilterByAuthorNames">
+            Filter by author names
+          </label>
+        </li>
+      </ul>
 
-    <div id="testUI" style="display: none;">
-      <button id="testButton">test</button>
-      <textarea id="debugTextarea">debugTextarea</textarea>
+      <div>
+        <h4 class="thinMargin" style="display:inline-block">Author Names</h4>
+        <input id="addNameEntryButton" type="button" value="+" title="add one more author field">
+      </div>
+      
+      <ul id="authorNameList" data-multiple-root="ul" data-multiple-name="authorNames"
+        data-multiple-template="authorNamesTemplate" class="simpleList" style="padding-left: 20px;">
+      </ul>
+
+      <!-- template -->
+      <ul class="displayNone">
+        <li id="authorNamesTemplate">
+          <input name="authorNames" data-multiple-root="ul" type="text" value="" placeholder="author name">
+          <input data-multiple-root="ul" data-multiple-operation="remove" type="button" value="-" title="remove this field">
+        </li>
+      </ul>
+
     </div>
   </div>
 
