@@ -2,12 +2,15 @@
 
 ## Features
 
-- Mark your own posts that you originally wrote (currently it changes background color)
-- Hide other people's posts
+This extension adds following features on the post list pages of Canny.
+
 - Show author name of each post
 - Show the date each post is created
-- Filter by author names (Only show posts by specified users)
+- Mark your own posts that you originally wrote (represented as background color)
 - Mark posts by author names
+- Visibility filter for posts 
+  - Only posts that you wrote (Hide other people's posts)
+  - by author names (Only show posts written by specified authors)
 
 ## Installation
 Currently, this extension is in the early stage of development,
@@ -16,9 +19,9 @@ So you need Chrome extension developer mode to install.
 
 Install steps:
 
-0. download from [release](https://github.com/naqtn/vrchat-feedback-boards-helper/releases) or clone the repo
+0. download from [release](https://github.com/naqtn/vrchat-feedback-boards-helper/releases) or clone the repo.
 1. Extract and copy files to anywhere you want.
-2. Start Chrome
+2. Start Chrome.
 3. Open `chrome://extensions/` URL to show the "Extension Management" page.
    (Alternatively, from "Chrome menu" > "More Tools" > "Extensions")
 4. Enable "Developer Mode" by a switch on right upper of the page.
