@@ -2,6 +2,9 @@ body .hidePost {
     display: none !important;
 }
 
+.markAuthorPost {
+    background-color: lightgreen;
+}
 .markMyPost {
     background-color: lightblue;
 }

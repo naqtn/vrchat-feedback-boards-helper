@@ -28,7 +28,8 @@ const getInitialSettings = () => {
         isHideOthersPosts: false,
         isShowAuthorName: false,
         isFilterByAuthorNames: false,
-        authorNames: ['foo', 'bar'],
+        isMarkPostsByAuthorNames: false,
+        authorNames: [],
     };
 }
 
@@ -240,11 +241,13 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
         const postListItem = postLink.closest('.postListItem');
         // postListItem could be null. (for instance, this postLink is in Notification popup) 
         if (postListItem) {
-            const postInfoExt = ensurePostInfoExtDiv(postListItem);
 
+            // additional info
+            const postInfoExt = ensurePostInfoExtDiv(postListItem);
             const nameSpan = postInfoExt.querySelector('.ext_name');
             nameSpan.innerText = (currentSettings.isShowAuthorName) ? postInfo.authorName : '';
 
+            // mine or others
             if (postInfo.isAuthorIsViewer) {
                 if (currentSettings.isMarkMyPosts) {
                     postListItem.classList.add('markMyPost');
@@ -258,8 +261,10 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
                     postListItem.classList.remove('hidePost');
                 }
             }
+
+            // specified authors
+            const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
             if (currentSettings.isFilterByAuthorNames) {
-                const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
                 if (authorIncluded) {
                     postListItem.classList.remove('hidePost');
                 } else {
@@ -268,6 +273,16 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
             } else {
                 postListItem.classList.remove('hidePost');
             }
+            if (currentSettings.isMarkPostsByAuthorNames) {
+                if (authorIncluded) {
+                    postListItem.classList.add('markAuthorPost');
+                } else {
+                    postListItem.classList.remove('markAuthorPost');
+                }
+            } else {
+                postListItem.classList.remove('markAuthorPost');
+            }
+
         }
     }
 };
