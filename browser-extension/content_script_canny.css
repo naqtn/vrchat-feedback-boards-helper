@@ -15,3 +15,6 @@ body .hidePost {
 .ext_postInfoExt .ext_name {
     font-weight: 600;
 }
+.ext_postInfoExt .ext_created {
+    margin-left: 10px;
+}

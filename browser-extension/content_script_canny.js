@@ -26,7 +26,8 @@ const getInitialSettings = () => {
     return {
         isMarkMyPosts: false,
         isHideOthersPosts: false,
-        isShowAuthorName: false,
+        isShowAuthorName: true,
+        isCreatedDate: true,
         isFilterByAuthorNames: false,
         isMarkPostsByAuthorNames: false,
         authorNames: [],
@@ -147,6 +148,8 @@ const extractPostInfoFromDataObject = (dataObj, postLink) => {
             return {
                 postLink: postLink,
                 urlName: post_urlName,
+                created: postObject.created,
+                statusChanged: postObject.statusChanged,
                 authorID: postObject.authorID,
                 authorName: postObject.author.name,
                 isAuthorIsViewer: (postObject.authorID === dataObj.viewer._id),
@@ -222,7 +225,7 @@ const ensurePostInfoExtDiv = (postListItem) => {
     }
     const newOne = document.createElement('div');
     newOne.classList.add('ext_postInfoExt');
-    newOne.innerHTML = '<span class="ext_name"></span>';
+    newOne.innerHTML = '<span class="ext_name"></span><span class="ext_created"></span>';
     const postTitle = postListItem.querySelector('.postTitle');
     const insertPoint = postTitle.parentNode;
 
@@ -246,6 +249,16 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
             const postInfoExt = ensurePostInfoExtDiv(postListItem);
             const nameSpan = postInfoExt.querySelector('.ext_name');
             nameSpan.innerText = (currentSettings.isShowAuthorName) ? postInfo.authorName : '';
+            const createdSpan = postInfoExt.querySelector('.ext_created');
+            if (currentSettings.isCreatedDate) {
+                if (!postInfo.createdDateString) {
+                    const date = new Date(postInfo.created);
+                    postInfo.createdDateString = date.toLocaleDateString();
+                }
+                createdSpan.innerText = postInfo.createdDateString;
+            } else {
+                createdSpan.innerText = '';
+            }
 
             // mine or others
             if (postInfo.isAuthorIsViewer) {
