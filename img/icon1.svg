@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="icon1.svg"
+   inkscape:export-filename=".\icon1.png"
+   inkscape:export-xdpi="24"
+   inkscape:export-ydpi="24"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="false"
+     inkscape:document-units="px"
+     showgrid="false"
+     inkscape:zoom="0.84179688"
+     inkscape:cx="-289.26218"
+     inkscape:cy="298.76566"
+     inkscape:window-width="1920"
+     inkscape:window-height="1051"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer3"
+     showborder="true"
+     inkscape:showpageshadow="false" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="Jam icons"
+     style="display:inline">
+    <g
+       style="fill:currentColor"
+       id="g19202"
+       transform="matrix(9.4087106,0,0,9.4087106,-629.58952,346.08039)">
+      <path
+         d="M 3.656,17.979 A 1,1 0 0 1 2,17.243 V 15 A 2,2 0 0 1 0,13 V 6 A 2,2 0 0 1 2,4 h 11 a 2,2 0 0 1 2,2 v 7 a 2,2 0 0 1 -2,2 H 8.003 Z M 16,10.017 a 7.136,7.136 0 0 0 0,0.369 v -0.37 C 16.005,9.909 16.006,8.569 16.004,5.997 A 3,3 0 0 0 13.004,3 H 5 V 2 A 2,2 0 0 1 7,0 h 11 a 2,2 0 0 1 2,2 v 7 a 2,2 0 0 1 -2,2 v 2.243 a 1,1 0 0 1 -1.656,0.736 L 16,13.743 Z"
+         id="path19193" />
+    </g>
+    <g
+       style="fill:currentColor"
+       id="g19301"
+       transform="matrix(11.081475,0,0,11.081475,-356.5681,327.6823)">
+      <path
+         d="M 8,14 A 6,6 0 1 0 8,2 6,6 0 0 0 8,14 Z m 6.32,-1.094 3.58,3.58 a 1,1 0 1 1 -1.415,1.413 l -3.58,-3.58 a 8,8 0 1 1 1.414,-1.414 z"
+         id="path19292" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:40px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none"
+       x="-746.02325"
+       y="194.82133"
+       id="text20729"><tspan
+         sodipodi:role="line"
+         id="tspan20727"
+         x="-746.02325"
+         y="194.82133">Original materials from</tspan><tspan
+         sodipodi:role="line"
+         x="-746.02325"
+         y="244.82133"
+         id="tspan24001">Jam icons https://jam-icons.com/</tspan><tspan
+         sodipodi:role="line"
+         x="-746.02325"
+         y="294.82135"
+         id="tspan24003">Licensed under MIT</tspan></text>
+  </g>
+  <g
+     inkscape:label="messages"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <g
+       style="fill:#166ccd;fill-opacity:1"
+       id="g2820"
+       transform="matrix(-19.550821,0,0,18.604964,410.14608,158.1315)">
+      <path
+         d="M 1.8280259,17.951456 C 1.116016,18.570587 0.00507283,18.076833 -0.01248684,17.133451 v -2.492917 c -1.22764146,0 -2.22284146,-0.9952 -2.22284146,-2.222841 V 4.6377477 c 0,-1.2276414 0.9952,-2.2228414 2.22284146,-2.2228414 H 12.213141 c 1.227641,0 2.222841,0.9952 2.222841,2.2228414 v 7.7799453 c 0,1.227641 -0.9952,2.222841 -2.222841,2.222841 H 6.6593717 Z"
+         id="path2818"
+         style="fill:#166ccd;fill-opacity:1;stroke-width:1.11142"
+         sodipodi:nodetypes="cccssssssscc" />
+    </g>
+    <g
+       style="fill:#525df9;fill-opacity:1"
+       id="g3795"
+       transform="matrix(-21.729187,0,0,20.677942,452.5002,115.2163)">
+      <path
+         d="m 16,10.017 c -0.0032,0.122979 -0.0032,0.246021 0,0.369 v -0.37 C 16.005,9.909 16.006,8.569 16.004,5.997 16.002344,4.3413174 14.659683,2.9999992 13.004,3 H 5 V 2 C 5,0.8954305 5.8954305,0 7,0 h 11 c 1.104569,0 2,0.8954305 2,2 v 7 c 0,1.104569 -0.895431,2 -2,2 v 2.243 c -0.0158,0.848808 -1.01537,1.293062 -1.656,0.736 L 16,13.743 Z"
+         id="path3793"
+         sodipodi:nodetypes="ccccscsssssccccc"
+         style="fill:#525df9;fill-opacity:1" />
+    </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="hand lens"
+     style="display:inline">
+    <g
+       style="display:inline;fill:#23ce23;fill-opacity:1"
+       id="g51"
+       transform="matrix(20.87723,0,0,20.516796,119.06058,12.555293)"
+       inkscape:export-filename="C:\prj\VRChat\work\vrchat-feedback-boards-helper\dev\icon\icon1.png"
+       inkscape:export-xdpi="24"
+       inkscape:export-ydpi="24">
+      <path
+         d="M 8,14 A 6,6 0 1 0 8,2 6,6 0 0 0 8,14 Z m 6.32,-1.094 3.58,3.58 a 1,1 0 1 1 -1.415,1.413 l -3.58,-3.58 a 8,8 0 1 1 1.414,-1.414 z"
+         id="path42"
+         style="fill:#23ce23;fill-opacity:1" />
+    </g>
+  </g>
+</svg>
