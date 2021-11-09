@@ -1,6 +1,27 @@
+.buttonStyledAnchor:hover,
+input[type=button]:hover {
+    background-color: #005cc8;
+}
+
+.buttonStyledAnchor,
+input[type=button] {
+    background-color: #0075ff;
+    border: none;
+    color: white;
+    padding: 2px 8px 3px 8px;
+    margin: 1px 1px;
+    border-radius: 5px;
+    display: inline-block;
+    /* font-size: 12px; */
+    text-align: center;
+    text-decoration: none;
+}
+
 .bodyCommon {
     background-color: dimgray;
     color: moccasin;
+    /* transform: scale(2.0);  */
+    /* zoom: 200%; */
 }
 
 .thinMargin {
