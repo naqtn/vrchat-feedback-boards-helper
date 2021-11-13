@@ -24,6 +24,7 @@ const getInitialSettings = () => {
     }
     // TODO try to load from chrome.storage
     return {
+        fetchActive: true,
         markMyPosts: false,
         visibilityFilter: 'SHOW_ALL',
         showAuthorName: true,
@@ -311,6 +312,10 @@ const decorateBoardPageWithPostLinks = (postLinks) => {
             continue;
         }
 
+        if (!currentSettings.fetchActive) {
+            continue;
+        }
+
         fetchPostInfo(link)
             .then((postInfo) => {
                 console.log('Got postInfo=', postInfo);
@@ -412,7 +417,5 @@ const main = () => {
     applySettings({});
 
     setupMutationObserver();
-
-    // setupMutationObserverToInvestigate();
 };
 main();
