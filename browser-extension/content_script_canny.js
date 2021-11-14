@@ -417,5 +417,7 @@ const main = () => {
     applySettings({});
 
     setupMutationObserver();
+
+    chrome.runtime.sendMessage({'type': 'showPageAction'});
 };
 main();
