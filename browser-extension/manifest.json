@@ -4,10 +4,12 @@
     "description": "A helper tool for VRChat feedback boards on Canny.",
     "version": "1.0",
     "icons": {
+        "48": "/images/icon1_48.png",
         "128": "/images/icon1_128.png"
     },
     "page_action": {
         "default_icon": {
+            "48": "/images/icon1_48.png",
             "128": "/images/icon1_128.png"
         },
         "show_matches": [
@@ -30,8 +32,10 @@
     "content_scripts": [
         {
             "matches": [
-                "https://feedback.vrchat.com/*",
-                "https://*.canny.io/*"
+                "https://*.canny.io/*",
+                // One of user company VRChat inc. uses their domain as a primary.
+                // It is another name of https://vrchat.canny.io
+                "https://feedback.vrchat.com/*"
             ],
             "js": [
                 "content_script_canny.js"
