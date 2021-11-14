@@ -1,18 +1,23 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 2,
     "name": "VRChat Feedback Boards Helper",
     "description": "A helper tool for VRChat feedback boards on Canny.",
     "version": "1.0",
     "icons": {
         "128": "/images/icon1_128.png"
     },
-    "action": {
+    "browser_action": {
         "default_icon": {
             "128": "/images/icon1_128.png"
         },
         "default_popup": "popup.html"
     },
-    "options_page": "options.html",
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true,
+        "browser_style": false,
+        "chrome_style": false
+    },
     "content_scripts": [
         {
             "matches": [

@@ -55,10 +55,12 @@ let activeTabId;
  * fillTheFormWithActiveTabCurrentSettings
  * set activeTabId as side the effect.
  */
-const fillTheFormWithActiveTabCurrentSettings = async () => {
+const fillTheFormWithActiveTabCurrentSettings = () => {
     activeTabId = null;
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-
+    chrome.tabs.query({ active: true, currentWindow: true }, tabsQueryCallback);
+}
+const tabsQueryCallback = (tabs) => {
+    const [tab] = tabs; 
     chrome.tabs.sendMessage(tab.id, { type: 'getCurrentSettings' },
         // we need callback chain because it seems not to support Promise (Chrome v95) for tabs.sendMessage 
         (response) => {
