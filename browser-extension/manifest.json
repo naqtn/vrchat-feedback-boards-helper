@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "VRChat Feedback Boards Helper",
-    "description": "A helper tool for VRChat feedback boards on Canny.",
+    "name": "Canny extension for End-user",
+    "description": "Improve usability of canny.io for end-user",
     "version": "1.0",
     "icons": {
         "48": "/images/icon1_48.png",
@@ -13,8 +13,8 @@
             "128": "/images/icon1_128.png"
         },
         "show_matches": [
-            "https://feedback.vrchat.com/*",
-            "https://*.canny.io/*"
+            "https://*.canny.io/*",
+            "https://feedback.vrchat.com/*"
         ],
         "default_popup": "popup.html"
     },
@@ -33,7 +33,8 @@
         {
             "matches": [
                 "https://*.canny.io/*",
-                // One of user company VRChat inc. uses their domain as a primary.
+
+                // One of user company VRChat inc. uses their domain for primary URL of feedback boards.
                 // It is another name of https://vrchat.canny.io
                 "https://feedback.vrchat.com/*"
             ],
