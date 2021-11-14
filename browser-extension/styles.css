@@ -20,6 +20,8 @@ input[type=button] {
 .bodyCommon {
     background-color: dimgray;
     color: moccasin;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
     /* transform: scale(2.0);  */
     /* zoom: 200%; */
 }
@@ -33,7 +35,7 @@ input[type=button] {
 }
 
 .popupBody {
-    width: 300px;
+    width: 350px;
 }
 
 .simpleList {
