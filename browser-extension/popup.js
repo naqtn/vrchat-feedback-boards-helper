@@ -197,6 +197,10 @@ document.getElementById('reloadFromDefaultsButton').addEventListener('click', ()
     return false;
 });
 
+document.getElementById('openOptionsPageButton').addEventListener('click', () => {
+    chrome.runtime.openOptionsPage();
+    return false;
+});
 
 
 ////////////////////////////////////////////////////////////////////////////////
