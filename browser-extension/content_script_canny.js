@@ -10,31 +10,35 @@ const PageType = {
 Object.freeze(PageType);
 
 
-// This must not conflict with the site.
-const settingsKey = 'feedback-boards-helper-settings-9336cbd2-d106-4850-942e-3b1ff754a437';
+const currentSettings = {};
 
-const getInitialSettings = () => {
+// This must not conflict with Canny site.
+const settingsKey = 'canny-extension-for-end-user-settings-9336cbd2-d106-4850-942e-3b1ff754a437';
+
+const getInitialSettings = (callback) => {
     const storageVal = sessionStorage.getItem(settingsKey);
     if (storageVal) {
         try {
-            return JSON.parse(storageVal);
+            const setting = JSON.parse(storageVal);
+            Object.assign(currentSettings, settings);
+            callback(true);
+            return;
         } catch (SyntaxError) {
-            // empty
+            console.log('Invalid value in sessionStorage. continue.');
         }
     }
-    // TODO try to load from chrome.storage
-    return {
-        fetchActive: true,
-        markMyPosts: false,
-        visibilityFilter: 'SHOW_ALL',
-        showAuthorName: true,
-        showCreatedDate: true,
-        markPostsByAuthorNames: false,
-        authorNames: [],
-    };
-}
+    chrome.runtime.sendMessage({ 'type': 'getSettingsFromStorage' }, (response) => {
+        if (!response) {
+            console.log('getSettingsFromStorage failed. ', runtime.lastError);
+            // REFINE call back with error message to show error explicitly.
+            callback(false);
+            return;
+        }
+        Object.assign(currentSettings, response);
+        callback(true);
+    });
+};
 
-const currentSettings = getInitialSettings();
 
 const storeSettings = (partialSettingsObject) => {
     Object.assign(currentSettings, partialSettingsObject);
@@ -412,12 +416,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 const main = () => {
     console.log('content_script_canny.js main');
 
-    // Setup initial settings.
-    // Decorate items initially showed as a side effect.
-    applySettings({});
+    // load initial settings.
+    getInitialSettings((success) => {
+        if (success) {
 
-    setupMutationObserver();
+            // As a side effect of applySettings, decorate items initially showed .
+            applySettings({});
 
-    chrome.runtime.sendMessage({'type': 'showPageAction'});
+            setupMutationObserver();
+
+            // TODO make it actually effective also on Chrome. that is, let it start in inactive state.
+            chrome.runtime.sendMessage({ 'type': 'showPageAction' });
+        }
+    });
 };
 main();

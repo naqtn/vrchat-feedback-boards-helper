@@ -6,28 +6,32 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="popupBody bodyCommon">
+<body class="popupBody bodyCommon" style="margin: 10px;">
 
-  <div style="margin: 10px;">
-    <div>Canny extension for End-user</div>
+  <h2 id="pageTitle">Canny extension for End-user</h2>
 
-    <div id="notWorkNowMessage">
+  <div id="notWorkNowMessage">
+    <div>
       <h3 class="thinMargin"> Not working on this tab now </h3>
 
-      Warning: If you see this message, something went wrong on this extension.
+      <div style="padding: 5px;">
+        Warning: If you see this message, something went wrong with this extension.
+      </div>
 
-      <div style="padding: 10px;">
+      <div style="padding: 5px;">
         This extension works only on
-        <ul style="list-style-type: none; padding-inline-start: 10px; margin: 2px;">
+        <ul style="padding-inline-start: 10px; margin: 2px;">
           <li>https://feedback.vrchat.com/ <a href="https://feedback.vrchat.com/" class="buttonStyledAnchor"
               target="_blank">Open</a></li>
           <li>https://*.canny.io/</li>
         </ul>
       </div>
     </div>
+  </div>
 
-    <div id="settingsInputs" class="displayNone">
-      <h3 class="thinMargin">Settings for now</h3>
+  <div id="settingsInputs" class="displayNone">
+    <h3 class="thinMargin" >Settings for now</h3>
+    <div id="settingsInputsBody">
       <ul class="simpleList" style="padding-left: 10px;">
         <li>
           <label>
@@ -85,13 +89,15 @@
             title="remove this field">
         </li>
       </ul>
-
-      <h3></h3>
-      <div>
-        <a href="options.html" class="buttonStyledAnchor" target="_blank">Help and Options</a>
-      </div>
-
     </div>
+
+    <h3></h3>
+    <div>
+      <input id="storeAsDefaultsButton" type="button" value="Store as Defaults">
+      <input id="reloadFromDefaultsButton" type="button" value="Reload from Defaults">
+      <a href="options.html" class="buttonStyledAnchor" target="_blank">Help and Options</a>
+    </div>
+
   </div>
 
   <script src="popup.js"></script>

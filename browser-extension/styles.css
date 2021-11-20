@@ -8,13 +8,17 @@ input[type=button] {
     background-color: #0075ff;
     border: none;
     color: white;
-    padding: 2px 8px 3px 8px;
+    padding: 3px 8px 3px 8px;
     margin: 1px 1px;
     border-radius: 5px;
     display: inline-block;
     /* font-size: 12px; */
     text-align: center;
     text-decoration: none;
+}
+
+h2 {
+    font-size: 18px;
 }
 
 .bodyCommon {

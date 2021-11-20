@@ -33,7 +33,6 @@
         {
             "matches": [
                 "https://*.canny.io/*",
-
                 // One of user company VRChat inc. uses their domain for primary URL of feedback boards.
                 // It is another name of https://vrchat.canny.io
                 "https://feedback.vrchat.com/*"
@@ -45,5 +44,8 @@
                 "content_script_canny.css"
             ]
         }
+    ],
+    "permissions": [
+        "storage"
     ]
 }
