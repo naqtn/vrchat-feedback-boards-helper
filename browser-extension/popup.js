@@ -70,7 +70,7 @@ const insertUsingTemplate = (multipleRoot) => {
     const templateId = multipleRoot.dataset.multipleTemplate;
     const itemTemplate = document.getElementById(templateId);
 
-    const newOne = itemTemplate.cloneNode(true);
+    const newOne = itemTemplate.content.cloneNode(true);
     multipleRoot.appendChild(newOne);
 
     return newOne;

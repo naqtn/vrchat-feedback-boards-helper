@@ -81,14 +81,13 @@
         data-multiple-template="authorNamesTemplate" class="simpleList" style="padding-left: 20px;">
       </ul>
 
-      <!-- template -->
-      <ul class="displayNone">
-        <li id="authorNamesTemplate">
+      <template id="authorNamesTemplate">
+        <li>
           <input name="authorNames" data-multiple-root="ul" type="text" value="" placeholder="author name">
           <input data-multiple-root="ul" data-multiple-operation="remove" type="button" value="-"
             title="remove this field">
         </li>
-      </ul>
+      </template>
     </div>
 
     <h3></h3>
