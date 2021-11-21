@@ -16,13 +16,13 @@ const showPageAction = (tabId) => {
 
 const currentSettings = {}; // cache
 const defaultSettings = {
-    fetchActive: false,
+    fetchActive: true,
     showAuthorName: true,
     showCreatedDate: true,
-    markMyPosts: false,
+    markMyPosts: true,
     markPostsByAuthorNames: false,
     visibilityFilter: 'SHOW_ALL',
-    authorNames: ['foo', 'quux'],
+    authorNames: [],
 };
 
 const getSettingsFromStorage = (callback) => {
