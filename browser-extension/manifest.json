@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
-    "name": "Canny extension for End-user",
-    "description": "Improve usability of canny.io for end-user",
-    "version": "1.0",
+    "name": "Canny extension for End-users",
+    "description": "Improve usability of canny.io for end-users",
+    "version": "0.1.4",
     "icons": {
         "48": "/images/icon1_48.png",
         "128": "/images/icon1_128.png"
