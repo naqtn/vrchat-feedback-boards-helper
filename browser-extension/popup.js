@@ -26,7 +26,7 @@ NOTE: Simple object-form mapper spec.
 */
 
 const fillTheForm = (settings, formIshElement) => {
-    console.log('fillTheForm settings=', settings);
+    // console.log('fillTheForm settings=', settings, formIshElement);
     for (const key of Object.keys(settings)) {
         const value = settings[key];
         if (Array.isArray(value)) {
@@ -43,12 +43,15 @@ const fillTheForm = (settings, formIshElement) => {
 
         } else {
             const input = formIshElement.querySelector(`[name=${key}]`);
+            // console.log('input=', input);
             if (input) {
                 if (input.type === 'checkbox') {
                     input.checked = value;
                 } else {
                     input.value = value;
                 }
+            } else {
+                console.warn(`input not found name=${key}`);
             }
         }
     }
@@ -70,7 +73,7 @@ const insertUsingTemplate = (multipleRoot) => {
     const templateId = multipleRoot.dataset.multipleTemplate;
     const itemTemplate = document.getElementById(templateId);
 
-    const newOne = itemTemplate.content.cloneNode(true);
+    const newOne = itemTemplate.content.firstElementChild.cloneNode(true);
     multipleRoot.appendChild(newOne);
 
     return newOne;
