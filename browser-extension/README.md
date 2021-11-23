@@ -25,7 +25,7 @@ This extension adds following features on the post list pages of [Canny](https:/
 - This extension might stop working because of changes on Canny's system in the future.
 
 ### Personal data
-- This extension reads your identity value embedded in Canny's pages to mark your posts.
+- This extension reads your identity value embedded in Canny's pages to mark posts you wrote.
 - But it doesn't store/send your personal data to anywhere.
 
 ### Network usage
