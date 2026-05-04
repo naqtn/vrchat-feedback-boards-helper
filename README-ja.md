@@ -24,37 +24,25 @@ VRChat が不具合や要望を受け付けている Canny のための、お便
 
 - 検索文字列と他の条件を一緒に指定すること。（テキストとステータスなどを同時に指定すること）
 - ステータスによるフィルターでの複数指定。（いずれかのステータスに該当するものが検索される）
-- "Open" や "Closed" 状態の投稿に絞り込むこと。（"Open" は開発からの返答がついていないもの。"Closed" は対応しないとされたもの。）
+- "Open" や "Closed" などの特定ステータスの投稿に絞り込むこと。（"Open" は投稿直後の状態。"Closed" は VRChat が対応しないとしたもの。）
 - 結果順を "old" にすること。（もっとも古いものが先頭に表示される。）
 - 検索条件を再利用すること。（検索条件を変更しての再検索。結果を別々のウィンドウに表示して、それらを比較できる。）
-- 全ての Board から検索すること。
 - 検索条件を保存し、後で同じ条件で検索すること。
 
 
-## 全 Board 検索 "search from all Boards"のための設定
+## 検索の挙動について
 
-全 Board からの検索機能 "search from all Boards" を使うには、このツールからのポップアップウィンドウを許可する必要があります。
-ブラウザーのセキュリティー設定の中にある、ポップアップ・ブロッカーの設定を確認してください。
+このツールの検索文字列フィールドを使うと、フォームで選択した Board に関わらず、Canny は **全ての Board** を対象に検索します。選択した Board が結果に効くのは、検索文字列を使わないフィルタのみ（ステータスのみによる絞り込みなど）です。各結果には由来の Board 名が併記されます。
 
-設定の詳細はお使いのブラウザによりますが、多くの場合以下のように設定するのが簡単です。
+この全 Board 横断の挙動は Canny 側の機能です。技術的詳細は [MAINTAINING.md](MAINTAINING.md) を参照してください。
 
-1. "search (from all Boards)" ボタンを押す。おそらく一つのウィンドウ（タブ）だけが開かれる。
-2. ツールのウィンドウに戻る。ブラウザはツールバーに警告アイコンを表示している。
-3. アイコンをクリックして設定ダイアログを開く。
-4. 許可を選び、設定する。
-
-### Chrome でのダイアログ:
-![popup blocking configuration dialog of Chrome](img/chrome-popup-ja-noted-70pc.png)
-
-### Firefox でのダイアログ:
-![popup blocking configuration dialog of Firefox](img/firefox-popup-ja-noted-70pc.png)
+注意: Canny のトップページにも検索入力欄があり、入力すると `/search?search=...` という URL に遷移しますが、このツールはそのような URL を **使っていません**。その URL を新しいタブで直接開いてもロードが完了しないため使えないからです。このツールは常に `/{board}?search=...` 形式の URL を組み立てて開きます（こちらは確実に動きます）。
 
 
 ## 制限事項
 
-- 自分が書いた投稿のみを一覧することは出来ません。Canny の検索にその機能がありません。 https://feedback.canny.io/feature-requests/p/show-my-posts https://feedback.canny.io/feature-requests/p/allow-users-to-pull-up-a-list-of-all-the-posts-theyve-made
+- Canny の "My Own" フィルタ（このツールでは `myCheckbox`）は **「自分の投稿」と「自分が Vote した投稿」の和集合** を返します。「自分の投稿のみ」に絞り込むことはできません。 https://feedback.canny.io/feature-requests/p/show-my-posts https://feedback.canny.io/feature-requests/p/allow-users-to-pull-up-a-list-of-all-the-posts-theyve-made
 - Canny はテキストの検索において何らかの曖昧検索をしているようです。完全一致を指定する方法はありません。 https://feedback.canny.io/feature-requests/p/offer-exact-search
-- 参考：複数の board からの検索を一画面で行えない、という Canny への機能要求  https://feedback.canny.io/feature-requests/p/global-search-all-boards-to-avoid-duplicates
 
 
 ## 補足資料: Canny の用語
@@ -82,22 +70,15 @@ VRChat が不具合や要望を受け付けている Canny のための、お便
 
 ### Status の意味
 
-[Canny help "Changing the status of a post"](https://help.canny.io/en/articles/673583-changing-the-status-of-a-post) から引用
+Status は Canny の機能上、利用企業ごとにカスタマイズ可能です。2026-05 現在、VRChat は以下の 8 つの Status を運用しています（Canny の順序通り）:
 
-> - **Open** (No status)
-> - **Under Review** (We are considering this)
-> - **Planned** (We are planning to work on this)
-> - **In Progress** (We are actively working on this)
-> - **Complete** (We are done working on this)
-> - **Closed** (We will not work on this)
+- **Open** (Initial 型) — 投稿直後の初期状態
+- **Tracked** (Active 型) — VRChat が把握している
+- **Interested** (Active 型) — VRChat が興味を持っている
+- **In Progress** (Active 型) — VRChat が現在作業中
+- **Needs More Information** (Active 型) — 投稿者からの追加情報を待っている
+- **Available in Future Release** (Complete 型) — open beta の build に実装済み（その open beta のリリースノートに記載されることが多い）。VRChat はこの status を、対応する live 版（通常版）がリリースされた後も維持する傾向があり、必ずしも「未だ live にない」を意味しない。
+- **Complete** (Complete 型) — 完了
+- **Closed** (Closed 型) — VRChat は対応しない予定
 
-私訳：
-
-- **Open** 特にステータスが付けられていない。（訳補足：投稿直後の状態）
-- **Under Review** 検討中
-- **Planned** 対応を計画している
-- **In Progress** 作業進行中
-- **Complete** 作業を完了した
-- **Closed** 対応をしない予定
-
-("On Hold" というものも定義されているようですが使っていないようです)
+これらの Status とその意味は VRChat の運用次第で変更されることがあります。正確な情報は VRChat 自身のアナウンスを参照してください。Canny の Status システム一般については [Canny help](https://help.canny.io/en/articles/673583-changing-the-status-of-a-post) を参照。

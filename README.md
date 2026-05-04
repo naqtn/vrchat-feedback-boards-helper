@@ -19,36 +19,24 @@ What you can do with this tool are (I mean what you can't do on Canny's UI):
 
 - Specify search text and other conditions together. (Text and status filter etc. simultaneously) 
 - "OR" condition of status for filtering. (Lists posts that have one of the specified statuses.)
-- Limit result list to posts with "Open", "Closed" status. ("Open" has no reply from the dev. "Closed" is rejected one.)
+- Limit result list to specific statuses, e.g. "Open" (newly posted, initial state) or "Closed" (VRChat won't work on this).
 - Use sort ordering "old". (most oldest post on the first)
 - Reuse search condition clearly. (You can modify condition and try it again. You can get results on each separated window and compare these.)
-- Search from all Boards.
 - Store search conditions and reuse later.
 
-## Setup for "search from all Boards"
+## Search behavior
 
-To use "search from all Boards" feature you must allow popup window for this tool.
-Check your browser's setting of "pop up blocker" in security section.
+When you use this tool's text-search field, Canny searches across **all boards** on the site, regardless of which Board you selected in the form. The selected Board only matters for filters that don't include text search (e.g. status-only filtering). Each result is labeled with its source Board.
 
-Though the detail depends on what browser you use, common and easy way is
+This cross-board behavior is a Canny-side feature. See [MAINTAINING.md](MAINTAINING.md) for technical details.
 
-1. Press "search (from all Boards)" button. Your browser can open only single window (tab), maybe.
-2. Go back this tool window. Then your browser may show alert icon on tool bar.
-3. Click the icon to show dialog.
-4. Check "allow" box and confirm it.
-
-### Chrome dialog:
-![popup blocking configuration dialog of Chrome](img/chrome-popup-en-noted-70pc.png)
-
-### Firefox dialog:
-![popup blocking configuration dialog of Firefox](img/firefox-popup-en-noted-70pc.png)
+Note: Canny's home page has a search input that navigates to `/search?search=...`. This tool does **not** use that URL — opening it directly in a fresh tab does not load results reliably. This tool always uses URLs of the form `/{board}?search=...`, which work consistently and (with the cross-board behavior described above) cover all boards anyway.
 
 
 ## Limitation
 
-- It's impossible to list posts that you originally wrote. Canny doesn't support such query. https://feedback.canny.io/feature-requests/p/show-my-posts https://feedback.canny.io/feature-requests/p/allow-users-to-pull-up-a-list-of-all-the-posts-theyve-made
+- Canny's "My Own" filter (the `myCheckbox` in this tool) returns posts you wrote *and* posts you voted on, mixed together. There is no way to filter to only your authored posts. https://feedback.canny.io/feature-requests/p/show-my-posts https://feedback.canny.io/feature-requests/p/allow-users-to-pull-up-a-list-of-all-the-posts-theyve-made
 - Canny seems to do some kind of fuzzy string searching. There's no way to exact matching. https://feedback.canny.io/feature-requests/p/offer-exact-search
-- FYI: feature request for Caany about no way to search from all board in a single view https://feedback.canny.io/feature-requests/p/global-search-all-boards-to-avoid-duplicates )
 
 
 ## Appendix: Canny terminology
@@ -68,13 +56,15 @@ Cite from [Canny help "Board Filters"](https://help.canny.io/en/articles/3827588
 
 ### meaning of Status
 
-Cite from [Canny help "Changing the status of a post"](https://help.canny.io/en/articles/673583-changing-the-status-of-a-post)
+Statuses are configured per company on Canny. As of 2026-05, VRChat uses these statuses (in Canny's order):
 
-> - **Open** (No status)
-> - **Under Review** (We are considering this)
-> - **Planned** (We are planning to work on this)
-> - **In Progress** (We are actively working on this)
-> - **Complete** (We are done working on this)
-> - **Closed** (We will not work on this)
+- **Open** (Initial type) — initial state for newly posted feedback
+- **Tracked** (Active type) — VRChat is tracking the post
+- **Interested** (Active type) — VRChat has expressed interest
+- **In Progress** (Active type) — VRChat is actively working on this
+- **Needs More Information** (Active type) — clarification is needed from the poster
+- **Available in Future Release** (Complete type) — implemented in the open beta build (typically mentioned in the open beta release notes). VRChat tends to keep this status even after the corresponding live release ships, so it does not strictly mean "not yet in live".
+- **Complete** (Complete type) — done
+- **Closed** (Closed type) — VRChat will not work on this
 
-(There seems to exist another status named "On Hold", but probably not to be used now.)
+The list and meanings are at VRChat's discretion and can change. Refer to VRChat's announcements for authoritative information. See [Canny's help on status](https://help.canny.io/en/articles/673583-changing-the-status-of-a-post) for general background on how the status system works.
