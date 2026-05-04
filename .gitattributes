@@ -1,0 +1,13 @@
+# Default behavior: normalize text files to LF in the repository,
+# auto-detect text vs binary based on content.
+# Working tree gets LF on all platforms (overrides core.autocrlf).
+* text=auto eol=lf
+
+# Explicit binary files (no text conversion)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.svg text
+*.ico binary
+*.zip binary
+*.xpi binary
