@@ -49,6 +49,15 @@ Canny-powered feedback site, the changes you need are:
    - Update the status checkboxes inside `<fieldset id="statusSelect">`
      to match the target company's statuses
    - Update the page title, headings, and references to VRChat
+   - **Update the README links** in two places: the inline help links
+     next to the search field (`help(En)` / `ヘルプ(Ja)`) and the
+     README list near the bottom of the page. These are absolute URLs
+     pointing to the canonical
+     `https://github.com/naqtn/vrchat-feedback-boards-helper` repo
+     because GitHub Pages serves `.md` files as raw markdown rather
+     than rendered HTML, so a same-origin relative link from this page
+     to `README.md` does not produce a useful view. Forks should
+     repoint these URLs to their own repository.
 3. **`README.md` / `README-ja.md`**: update the prose and links
 
 ### Finding the boards and statuses for a Canny site
