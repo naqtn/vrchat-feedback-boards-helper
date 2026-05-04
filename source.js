@@ -5,21 +5,32 @@
 
 const cannySiteData = [
     {
+        // VRChat boards as visible on https://feedback.vrchat.com/ to a logged-out viewer
+        // (snapshot 2026-05-03). Manually maintained.
         name: 'VRChat feedback boards',
         baseURL: 'https://feedback.vrchat.com/',
         boards: [
             { urlName: "feature-requests", name: "Feature Requests", },
-            { urlName: "bug-reports", name: "Client Bug Reports", },
-            { urlName: "sdk-bug-reports", name: "SDK Bug Reports", },
-            { urlName: "website-bug-reports", name: "Website Bug Reports", },
+            { urlName: "bug-reports", name: "Bug Reports", },
             { urlName: "open-beta", name: "Open Beta", },
-            { urlName: "avatar-30", name: "Avatars 3.0", },
-            { urlName: "quest-creators", name: "Quest Creators", },
-            { urlName: "vrchat-plus-feedback", name: "VRChat Plus Feedback", },
-            { urlName: "vrchat-udon-closed-alpha-bugs", name: "Udon Alpha Bugs", },
-            { urlName: "vrchat-udon-closed-alpha-feedback", name: "Udon Alpha Feedback", },
-            { urlName: "udon-graph-upgrade-closed-testing", name: "Udon Closed Alpha Testing", },
-            { urlName: "udon-networking-update", name: "Udon Networking Update", },
+            { urlName: "mobile-beta", name: "Android Limited Beta", },
+            { urlName: "ios-mobile-beta", name: "iOS", },
+            { urlName: "udon", name: "World/Udon Bugs & Feature Requests", },
+            { urlName: "avatar-30", name: "Avatar Bugs & Feature Requests", },
+            { urlName: "creator-companion", name: "Creator Companion", },
+            { urlName: "sdk-bug-reports", name: "SDK Bug & Feature Requests", },
+            { urlName: "vrchat-ik-20", name: "VRChat IK 2.0", },
+            { urlName: "website", name: "Website", },
+            { urlName: "localization", name: "Localization", },
+            { urlName: "impostors", name: "Impostors", },
+            { urlName: "persistence", name: "Persistence", },
+            { urlName: "creator-economy", name: "Creator Economy", },
+            { urlName: "age-verification", name: "Age Verification Feedback", },
+            { urlName: "avatar-marketplace", name: "Avatar Marketplace", },
+            { urlName: "merch", name: "Merch Ideas", },
+            { urlName: "vrchat-plus-feature-ideas", name: "VRChat+ Feature Ideas", },
+            { urlName: "example-central", name: "Example Central", },
+            { urlName: "third-person-view", name: "Third-Person View", },
         ],
     },
     {
