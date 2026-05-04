@@ -69,12 +69,8 @@ const statusSelect = document.getElementById('statusSelect');
 const sortSelect = document.getElementById('sortSelect');
 const myCheckbox = document.getElementById('myCheckbox');
 
-const popupGuide = document.getElementById('popupGuide');
-
 document.getElementById('openFixButton').addEventListener('click', () => openCanny(false));
 document.getElementById('openNewButton').addEventListener('click', () => openCanny(true));
-document.getElementById('openBoardsButton').addEventListener('click', () => openCannyAllBoards());
-document.getElementById('popupGuideClose').addEventListener('click', () => { popupGuide.classList.add('hidden'); });
 
 // Stocked Query
 document.getElementById('clearStockedQueryButton').addEventListener('click', (e) => clearStockedQuery(e));
@@ -138,7 +134,7 @@ const sortByIndex = (ai, bi) => {
 //     queryString: '/open-beta?status=planned',  // to identify query for human, not for the program
 //     queryObject: {/* see Query Object */},
 //     label: 'Check open beta',
-//     action: 'REUSE_WINDOW', // 'REUSE_WINDOW', 'NEW_WINDOW', 'ALL_BOARDS'
+//     action: 'REUSE_WINDOW', // 'REUSE_WINDOW', 'NEW_WINDOW' (or legacy 'ALL_BOARDS' from older versions)
 //     /* lastOpened: ...etc.? */
 // }
 
@@ -150,9 +146,6 @@ const createHistoryObject = (queryObject, url, action) => {
             break;
         case 'REUSE_WINDOW':
             qhead = 'R' + url.pathname;
-            break;
-        case 'ALL_BOARDS':
-            qhead = '*';
             break;
     }
 
@@ -173,10 +166,11 @@ const execHistoryObject = (hobj) => {
             openCanny(true);
             break;
         case 'REUSE_WINDOW':
-            openCanny(false);
-            break;
+        // Legacy: older versions had a multi-board open feature.
+        // Treat saved 'ALL_BOARDS' entries as single-window since Canny now does
+        // cross-board search automatically when ?search= is provided.
         case 'ALL_BOARDS':
-            openCannyAllBoards();
+            openCanny(false);
             break;
     }
 };
@@ -477,27 +471,6 @@ const openCanny = (isNewWin) => {
 
     addToRecentlyOpened(qobj, url, (isNewWin ? 'NEW_WINDOW' : 'REUSE_WINDOW'));
 };
-
-const openCannyAllBoards = () => {
-    let maybeBlocked = false;
-    let qobj;
-    let url;
-    for (const opt of boardSelect.options) {
-        qobj = composeQueryObjectFromForm(opt);
-        url = convertQueryObjectToURL(qobj);
-        const board = opt.value;
-        const win = window.open(url, board); // windows are always reused for all-boards-search
-        if (win === null) {
-            // maybe, because of pop-up blocking
-            maybeBlocked = true;
-        }
-    }
-    if (maybeBlocked) {
-        popupGuide.classList.remove('hidden');
-        popupGuide.focus();
-    }
-    addToRecentlyOpened(qobj, url, 'ALL_BOARDS');
-}
 
 ////////////////////////////////////////
 // Query Object
