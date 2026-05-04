@@ -1,0 +1,3 @@
+# web-ext build/sign output (Mozilla's web-extension tool default location)
+# https://github.com/mozilla/web-ext
+browser-extension/web-ext-artifacts/
