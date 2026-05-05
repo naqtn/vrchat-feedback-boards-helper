@@ -1,5 +1,5 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Canny extension for End-users",
     "description": "Improve usability of canny.io for end-users",
     "version": "1.0.2",
@@ -7,27 +7,19 @@
         "48": "/images/icon1_48.png",
         "128": "/images/icon1_128.png"
     },
-    "page_action": {
+    "action": {
         "default_icon": {
             "48": "/images/icon1_48.png",
             "128": "/images/icon1_128.png"
         },
-        "show_matches": [
-            "https://*.canny.io/*",
-            "https://feedback.vrchat.com/*"
-        ],
         "default_popup": "popup.html"
     },
     "background": {
-        "scripts": [
-            "background.js"
-        ]
+        "service_worker": "background.js"
     },
     "options_ui": {
         "page": "options.html",
-        "open_in_tab": true,
-        "browser_style": false,
-        "chrome_style": false
+        "open_in_tab": true
     },
     "content_scripts": [
         {
@@ -45,5 +37,15 @@
     ],
     "permissions": [
         "storage"
-    ]
+    ],
+    "host_permissions": [
+        "https://*.canny.io/*",
+        "https://feedback.vrchat.com/*"
+    ],
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{bb1da3d2-da52-479c-886b-06d4ed9fa5a3}",
+            "strict_min_version": "121.0"
+        }
+    }
 }
