@@ -431,9 +431,6 @@ const main = () => {
             applySettings({});
 
             setupMutationObserver();
-
-            // TODO make it actually effective also on Chrome. that is, let it start in inactive state.
-            chrome.runtime.sendMessage({ 'type': 'showPageAction' });
         }
     });
 };
