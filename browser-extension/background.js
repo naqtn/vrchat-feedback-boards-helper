@@ -4,17 +4,6 @@
 console.log('hello from background.js');
 
 
-// We need to call this to show popup on Chrome
-// https://stackoverflow.com/a/35885914/3180048
-// (Chrome alters icon image between disabled (grayed out image) and enabled automatically
-// as show_matches specified in the manifest. 
-// But it seems not to change click listener. Chrome ver 95.0)
-const showPageAction = (tabId) => {
-    chrome.pageAction.show(tabId);
-};
-
-
-const currentSettings = {}; // cache
 const defaultSettings = {
     fetchActive: true,
     showAuthorName: true,
@@ -27,23 +16,22 @@ const defaultSettings = {
 
 const getSettingsFromStorage = (callback) => {
     chrome.storage.local.get({'settings': defaultSettings}, (data) => {
-        Object.assign(currentSettings, data.settings);
-        callback(currentSettings);
+        callback(data.settings);
     });
 };
 
+// Read-modify-write: under MV3 the service worker may have been idle and
+// any in-memory cache cannot be trusted, so storage is the source of truth.
 const setSettingsToStorage = (settings) => {
-    Object.assign(currentSettings, settings);
-    chrome.storage.local.set({'settings': currentSettings});
+    chrome.storage.local.get({'settings': defaultSettings}, (data) => {
+        const merged = Object.assign({}, data.settings, settings);
+        chrome.storage.local.set({'settings': merged});
+    });
 };
 
 chrome.runtime.onMessage.addListener(
     (message, sender, sendResponse) => {
         switch (message.type) {
-            case 'showPageAction': {
-                showPageAction(sender.tab.id);
-                break;
-            }
             case 'getSettingsFromStorage': {
                 getSettingsFromStorage(sendResponse);
                 return true; // callback asynchronously
