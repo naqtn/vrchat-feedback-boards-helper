@@ -192,9 +192,13 @@ const fetchPostInfo = (postLink) => {
                 // We simply cut as a text instead of HTML parsing.
                 // Though this may change on Canny side and not stable,
                 // we choose easy way to implement right now.
-                const scriptRex = new RegExp('<script charSet="UTF-8">window.__data = (.*?);</script>');
+                const scriptRex = /<script[^>]*>\s*window\.__data\s*=\s*(\{[\s\S]*?\});\s*<\/script>/;
                 const found = text.match(scriptRex);
                 console.log('match found=', found);
+                if (!found) {
+                    reject('failed to extract data from Canny post (no match)');
+                    return;
+                }
                 if (found.length !== 2) {
                     reject('failed to extract data from Canny post');
                 } else {
