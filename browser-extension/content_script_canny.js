@@ -249,7 +249,10 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
     // console.log('decorateBoardPageWithPostInfo query=', query);
     const links = document.querySelectorAll(query);
     for (const postLink of links) {
-        const postListItem = postLink.closest('.postListItem');
+        // Canny renamed the post list item wrapper from `postListItem` to
+        // `postListItemV2`. Match both so this extension keeps working on
+        // Canny instances that may still use the old class name.
+        const postListItem = postLink.closest('.postListItem, .postListItemV2');
         // postListItem could be null. (for instance, this postLink is in Notification popup) 
         if (postListItem) {
 
