@@ -26,6 +26,10 @@ What you can do with this tool are (I mean what you can't do on Canny's UI):
 - Reuse search condition clearly. (You can modify condition and try it again. You can get results on each separated window and compare these.)
 - Store search conditions and reuse later.
 
+## Also see: companion browser extension
+
+A companion browser extension, [Canny extension for End-users](browser-extension/README.md), augments Canny's post-listing pages directly: showing author names and creation dates of each post, marking your own posts, and filtering posts by author. It complements this web tool. This page composes Canny search URLs for you to open, while the extension improves how the resulting pages look once you are there. The extension requires installation in your browser; this web page does not.
+
 ## Search behavior
 
 When you use this tool's text-search field, Canny searches across **all boards** on the site, regardless of which Board you selected in the form. The selected Board only matters for filters that don't include text search (e.g. status-only filtering). Each result is labeled with its source Board.
