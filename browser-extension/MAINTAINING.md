@@ -240,5 +240,6 @@ github/browser-extension/
 ├── styles.css                 # shared styling
 ├── images/                    # icon assets (icon1_48.png, icon1_128.png)
 ├── README.md                  # end-user documentation
+├── PRIVACY.md                 # privacy policy (linked from store listings)
 └── MAINTAINING.md             # this file
 ```
