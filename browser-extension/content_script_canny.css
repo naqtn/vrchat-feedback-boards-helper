@@ -9,6 +9,16 @@ body .ext_hidePost {
     background-color: lightblue;
 }
 
+/* Dark mode variants. Canny applies html.darkTheme when its theme
+   resolves to dark (either via the user's Canny theme setting or via
+   prefers-color-scheme when the setting is "auto"). */
+html.darkTheme .ext_markAuthorPost {
+    background-color: rgba(144, 238, 144, 0.2);
+}
+html.darkTheme .ext_markMyPost {
+    background-color: rgba(135, 206, 235, 0.2);
+}
+
 .ext_postInfoExt {
     padding-bottom: 3px;
 }
