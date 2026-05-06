@@ -238,7 +238,10 @@ github/browser-extension/
 │                              # options page via iframe
 ├── options.html / options.js  # full options page
 ├── styles.css                 # shared styling
-├── images/                    # icon assets (icon1_48.png, icon1_128.png)
+├── images/                    # icon assets (icon1_48.png, icon1_128.png),
+│                              # referenced from manifest.json
+├── doc-img/                   # screenshots used by README; bundled in
+│                              # the extension zip but not used at runtime
 ├── README.md                  # end-user documentation
 ├── PRIVACY.md                 # privacy policy (linked from store listings)
 └── MAINTAINING.md             # this file

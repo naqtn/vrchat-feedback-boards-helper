@@ -1,75 +1,144 @@
 # Canny extension for End-users
 
+A browser extension that adds power-user features to feedback sites
+that run on [Canny](https://canny.io/), a feedback collection
+service.
+
+## What it does
+
+The extension activates only on Canny-powered feedback sites. It
+improves the post-listing experience by surfacing information that
+Canny does not show by default, by marking posts that match criteria
+you choose, and by letting you hide posts that fall outside a filter.
+
+You can try it on the Canny project's own feedback board:
+<https://feedback.canny.io/>
+
+![Screenshot of the extension on a Canny board page, with author and date information added to posts and the settings popup overlay (Firefox)](doc-img/whole-firefox.png)
+
 ## Features
 
-This extension adds following features on the post list pages of [Canny](https://canny.io/).
+- **Show author name and creation date of each post** in the board
+  listing. Canny normally shows neither; with this extension you can
+  scan author and recency at a glance.
+- **Mark your own posts** with a distinct background color, so you
+  can spot them in long lists.
+- **Mark posts by specific authors** you configure by name — same
+  idea, applied to other contributors.
+- **Visibility filter**: hide all posts except your own, or hide all
+  posts except those by specific authors. Canny does not provide
+  author-based filtering; this fills that gap.
+- **Each feature can be enabled or disabled independently** through
+  the extension's options page or the toolbar popup. Settings are
+  stored on your device and persist across sessions.
+- **Dark mode aware**: when Canny is in dark mode, marking colors
+  switch to dark-mode-friendly variants automatically.
 
-- Show author name of each post
-- Show the date each post is created
-- Mark your own posts that you originally wrote (represented as background color)
-- Mark posts by author names
-- Visibility filter for posts 
-  - Only posts that you wrote (Hide other people's posts)
-  - by author names (Only show posts written by specified authors)
+## Where it works
 
-## Warnings and Limitations
+- Any `*.canny.io` site (e.g. `feedback.canny.io`)
+- `feedback.vrchat.com` (a known alias for VRChat's Canny instance)
 
-### Depends on Canny but is not affiliated
+## Installation
 
-- ["Canny is a feedback tool that makes it easy for teams to understand what their customers are asking for. "](https://canny.io/blog/canny-for-sales/)
-- This extension "Canny extension for end-uses" is not affiliated with Canny Inc.
-- Do not confuse with
- [Canny Chrome Extension](https://chrome.google.com/webstore/detail/canny/ppljpoflocngelbkbmebgkpdbbjaejhi)
- ([help page](https://help.canny.io/en/articles/5633815-chrome-extension)) by Canny Inc.
-- We developed this extension originally for feedback boards of [VRChat](https://vrchat.com) running on Canny.io. So it works also on "https://feedback.vrchat.com/".
-- This extension might stop working because of changes on Canny's system in the future.
+### Chrome / Chromium-based browsers
 
-### Personal data
-- This extension reads your identity value embedded in Canny's pages to mark posts you wrote.
-- But it doesn't store/send your personal data to anywhere.
+Install from the Chrome Web Store:
+<https://chromewebstore.google.com/detail/canny-extension-for-end-u/kegipopmleihfiidkcjngbcjoanmceak>
 
-### Network usage
-- This extension increases network load same as opening every posts on the post list you browse. 
-- You can suppress this network activity by check-off "Allow network usage" in the settings.
+### Firefox
 
-## Contacts
-- https://github.com/naqtn/vrchat-feedback-boards-helper/issues
+Install from Mozilla Add-ons (AMO): _link to be added once the 1.1.0
+listed-mode submission is approved._
 
+In the meantime, you can install from source — see
+[MAINTAINING.md](MAINTAINING.md) for the build and sideload steps.
 
-## Installation on Chrome
+### From source (for developers / forkers)
 
-Currently, this extension is in the early stage of development,
-and it isn't hosted on the Chrome Web Store yet.
-So you need Chrome extension developer mode to install.
+See [MAINTAINING.md](MAINTAINING.md).
 
-Install steps:
+## Using the extension
 
-0. download from [release](https://github.com/naqtn/vrchat-feedback-boards-helper/releases) or clone the repo.
-1. Extract and copy files to anywhere you want.
-2. Start Chrome.
-3. Open `chrome://extensions/` URL to show the "Extension Management" page.
-   (Alternatively, from "Chrome menu" > "More Tools" > "Extensions")
-4. Enable "Developer Mode" by a switch on right upper of the page.
-5. Press the "Load unpacked" button and select the directory that you choose on step 1.
-6. If you already open VRChat feedback board (that is Canny), you may need reload it to apply newly installed this extension.
+After installation, visit a Canny feedback site (e.g.
+<https://feedback.canny.io/feature-requests>). The extension's icon
+(<img src="images/icon1_48.png" width="20" height="20" alt="extension icon">)
+is initially listed inside your browser's extensions menu (opened
+from the puzzle-piece icon on the toolbar). Click the extension's
+icon there to open the popup. For quicker access, your browser lets
+you pin the icon directly to the toolbar.
 
+### Settings
 
-## Guides
+The extension exposes the same settings in two places:
 
-### Changing settings
-- Show popup and configure (Same manner as other extensions. See below for details)
-- Settings will be applied immediately on browsing page.
-- Currently you can't save settings. It sustains while the session only. (That is until you close the tab.)
+- The **popup** (toolbar icon) edits settings for the **current tab
+  session only**. Changes apply immediately to the active tab.
+- The **options page** (opened from the popup's "Help and Options"
+  button) edits **default settings** that apply to every new tab.
 
-### Chrome: How to show popup
-1. While browsing Canny pages,
-2. Click Chrome extensions button on toolbar. (Like a jigsaw puzzle piece icon on right upper of the window)
-3. Choose this extension
-4. Then a popup window appears.
-5. Tips: You can pin the icon on the toolbar for a short cut.
+![Screenshot of the settings popup showing all available options (Firefox)](doc-img/settings-popup-firefox.png)
 
-### Firefox: How to show popup
-1. While browsing Canny pages,
-2. Click the icon of this extension that is displayed inside the browser address bar (right side of the bar).
-3. Then a popup window appears.
+The settings themselves are:
 
+- **Allow network usage to get post details** — controls whether the
+  extension fetches each post's individual page to read author and
+  date information. Disable to suppress this extra network activity.
+- **Show author name of each post** — adds the author name to each
+  row in the post listing.
+- **Show the date each post is created** — adds the creation date to
+  each row.
+- **Mark my posts** — applies a background color to posts you
+  authored. Requires you to be logged in to the Canny site so the
+  extension can identify which posts are yours.
+- **Mark posts by specified authors** — applies a different
+  background color to posts authored by names you list.
+- **Visibility Filter** — choose between "Show all posts", "Only
+  posts that I wrote", or "Only posts by specified authors".
+- **Author Names** — the list of names used by the marking and
+  filtering features above. Add and remove entries with the `+` and
+  `-` buttons.
+
+### Session settings vs. default settings
+
+- **Store as Defaults** (popup button) — saves the current session
+  settings as the new defaults.
+- **Reload from Defaults** (popup button) — restores the session
+  settings from the stored defaults.
+
+Both kinds of settings live in your browser's local storage; nothing
+is sent to any server.
+
+## Privacy
+
+This extension does not collect, transmit, or share any personal
+data. It does not include analytics or telemetry.
+
+See [PRIVACY.md](PRIVACY.md) for the full privacy policy.
+
+## Source, issues, and license
+
+- Source code: <https://github.com/naqtn/vrchat-feedback-boards-helper>
+- Issue tracker: <https://github.com/naqtn/vrchat-feedback-boards-helper/issues>
+- For maintainers and forkers: [MAINTAINING.md](MAINTAINING.md)
+
+Distributed under the MIT License.
+
+## Notes and limitations
+
+- The extension reads a Canny page's structure to extract the
+  additional information; if Canny significantly changes its page
+  structure, the extension may temporarily stop working until it is
+  updated.
+- The extension's per-post detail enrichment makes one extra network
+  request per post; on very large boards this is noticeable. Disable
+  "Allow network usage to get post details" to suppress this.
+- Canny themselves publish a separate official
+  ["Canny" Chrome extension](https://chromewebstore.google.com/detail/canny/ppljpoflocngelbkbmebgkpdbbjaejhi)
+  for a different purpose (admin/team use); do not confuse the two.
+
+## Not affiliated with Canny Inc.
+
+This is an independent third-party extension. It is not made by,
+endorsed by, or affiliated with [Canny Inc.](https://canny.io/), the
+company that runs the Canny service.
