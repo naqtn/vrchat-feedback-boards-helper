@@ -1,5 +1,7 @@
 # Canny extension for End-users
 
+[日本語版](README-ja.md)
+
 A browser extension that adds power-user features to feedback sites
 that run on [Canny](https://canny.io/), a feedback collection
 service.

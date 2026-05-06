@@ -1,5 +1,7 @@
 # Canny extension for End-users
 
+[English version](README.md)
+
 [Canny](https://canny.io/) (フィードバック収集サービス) を使ったフィードバックサイトに、パワーユーザー向けの機能を追加するブラウザ拡張
 
 ## 概要
@@ -75,7 +77,7 @@ Mozilla Add-ons (AMO) からインストールできます: _1.1.0 の listed-mo
 
 この拡張は、個人データを収集・送信・共有しません。解析やテレメトリのコードも含みません。
 
-プライバシーポリシー全文は [PRIVACY.md](PRIVACY.md) を参照してください。
+プライバシーポリシー全文は [PRIVACY-ja.md](PRIVACY-ja.md) を参照してください。
 
 ## ソース・課題管理・ライセンス
 

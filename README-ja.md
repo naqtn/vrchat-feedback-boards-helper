@@ -1,5 +1,7 @@
 # vrchat-feedback-boards-helper
 
+[English version](README.md)
+
 VRChat が不具合や要望を受け付けている Canny のための、お便利ツール
 
 [https://naqtn.github.io/vrchat-feedback-boards-helper/](https://naqtn.github.io/vrchat-feedback-boards-helper/) で稼働しています。

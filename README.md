@@ -1,5 +1,7 @@
 # vrchat-feedback-boards-helper
 
+[日本語版](README-ja.md)
+
 A helper tool for VRChat feedback boards on Canny.
 
 Live on [https://naqtn.github.io/vrchat-feedback-boards-helper/](https://naqtn.github.io/vrchat-feedback-boards-helper/)
