@@ -10,13 +10,27 @@ const defaultSettings = {
     showCreatedDate: true,
     markMyPosts: true,
     markPostsByAuthorNames: false,
-    visibilityFilter: 'SHOW_ALL',
+    authorFilter: 'SHOW_ALL',
+    hideForeignBoardPosts: false,
     authorNames: [],
+};
+
+// 1.1.0 renamed visibilityFilter -> authorFilter (the umbrella term
+// "visibility filter" now covers both author-based and board-based filters).
+// Migrate the value if the user is upgrading from an earlier version.
+// This block can be removed several versions after 1.1.0 is widely adopted.
+const migrateLegacyKeys = (settings) => {
+    if (settings.visibilityFilter !== undefined && settings.authorFilter === undefined) {
+        settings.authorFilter = settings.visibilityFilter;
+    }
+    delete settings.visibilityFilter;
+    return settings;
 };
 
 const getSettingsFromStorage = (callback) => {
     chrome.storage.local.get({'settings': defaultSettings}, (data) => {
-        callback(data.settings);
+        const settings = migrateLegacyKeys(data.settings);
+        callback(settings);
     });
 };
 

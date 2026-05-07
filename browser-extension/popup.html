@@ -65,15 +65,33 @@
         </li>
       </ul>
 
-      <h4 class="thinMargin">Visibility Filter</h4>
-      <select name="visibilityFilter" style="margin-left: 20px;">
-        <option value="SHOW_ALL">Show all posts</option>
-        <option value="ONLY_MINE">Only posts that I wrote</option>
-        <option value="ONLY_SPECIFIED_AUTHORS_BY_NAME">Only posts by specified authors</option>
-      </select>
+      <h4 class="thinMargin">
+        Visibility filters
+        <span class="helpHint" title="Two independent filters; a post is shown only when both allow it.">ⓘ</span>
+      </h4>
+      <ul style="margin: 0;">
+        <li>
+          Filter by author:<br/>
+          <select name="authorFilter">
+            <option value="SHOW_ALL">Show all posts</option>
+            <option value="ONLY_MINE">Only posts that I wrote</option>
+            <option value="ONLY_SPECIFIED_AUTHORS_BY_NAME">Only posts by specified authors</option>
+          </select>
+        </li>
+        <li>
+          <label>
+            <input type="checkbox" name="hideForeignBoardPosts">
+            Hide posts from other boards
+          </label>
+          <span class="helpHint" title="Useful when Canny returns posts from boards other than the one you are viewing (typically as a result of cross-board text search on Canny sites with global search enabled). Has no effect on a normal single-board listing.">ⓘ</span>
+        </li>
+      </ul>
 
       <div style="margin-top: 5px;">
-        <h4 class="thinMargin" style="display:inline-block">Author Names</h4>
+        <h4 class="thinMargin" style="display:inline-block">
+          Author Names
+          <span class="helpHint" title="Names listed here are used by 'Mark posts by specified authors' above and by 'Filter by author > Only posts by specified authors' in the visibility filters.">ⓘ</span>
+        </h4>
         <input id="addNameEntryButton" type="button" value="+" title="add one more author field">
       </div>
 
@@ -83,7 +101,8 @@
 
       <template id="authorNamesTemplate">
         <li>
-          <input name="authorNames" data-multiple-root="ul" type="text" value="" placeholder="author name">
+          <input name="authorNames" data-multiple-root="ul" type="text" value="" placeholder="author name"
+            title="Names listed here are used by 'Mark posts by specified authors' above and by 'Filter by author > Only posts by specified authors' in the visibility filters.">
           <input data-multiple-root="ul" data-multiple-operation="remove" type="button" value="-"
             title="remove this field">
         </li>

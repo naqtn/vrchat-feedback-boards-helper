@@ -71,18 +71,84 @@ const detectPageType = () => {
 
 
 /**
+ * Get the urlName of the board for the current page.
+ * Returns null if the current page is not a board or post page.
+ */
+const getCurrentBoardUrlName = () => {
+    // Pathname is "/{board}" on a board page or "/{board}/p/{post}" on a post page.
+    const pathElements = window.location.pathname.split('/');
+    if (pathElements.length >= 2 && pathElements[1]) {
+        return pathElements[1];
+    }
+    return null;
+};
+
+/**
+ * Extract the board urlName from a post link href like "/{board}/p/{post}".
+ */
+const getPostBoardUrlName = (postLink) => {
+    const parts = postLink.split('/');
+    if (parts.length >= 2 && parts[1]) {
+        return parts[1];
+    }
+    return null;
+};
+
+/**
+ * Apply the board pre-filter to a post link element.
+ *
+ * "Pre-filter" terminology: this filter can decide at link-discovery time
+ * without needing the fetched post info, in contrast to applyPostFilter
+ * which requires post info (author identity).
+ *
+ * Hides the post's list item if the post belongs to a different board than
+ * the current page. Activated by the user's `hideForeignBoardPosts` setting
+ * (default off). Uses the `ext_hideForeignBoardPost` CSS class (separate
+ * from `ext_hidePost` so that pre-filter and post-filter do not interfere
+ * with each other).
+ */
+const applyPreFilterToLink = (postLinkElement, currentBoard) => {
+    const postListItem = postLinkElement.closest('.postListItem, .postListItemV2');
+    if (!postListItem) return;
+
+    if (!currentSettings.hideForeignBoardPosts) {
+        // Setting off: ensure no leftover hide class remains.
+        postListItem.classList.remove('ext_hideForeignBoardPost');
+        return;
+    }
+
+    const href = postLinkElement.getAttribute('href');
+    const linkBoard = getPostBoardUrlName(href);
+    if (!linkBoard) return;
+
+    if (linkBoard === currentBoard) {
+        postListItem.classList.remove('ext_hideForeignBoardPost');
+    } else {
+        postListItem.classList.add('ext_hideForeignBoardPost');
+    }
+};
+
+/**
  * Find Canny Post links under specified element.
- * 
+ *
  * Post link is a string formatted like this: "/{Board_urlName}/p/{Post_urlName}"
  * PageType of current page should be PageType.CANNY_BOARD.
+ *
+ * Side effect: applies the board pre-filter (applyPreFilterToLink) at
+ * discovery time when the page is a board page. Only meaningful on
+ * CANNY_BOARD pages; on other page types it is skipped.
  */
 const findCannyPostLinks = (element) => {
     const result = [];
     const postLinks = element.querySelectorAll('a.postLink');
+    const currentBoard = (detectPageType() === PageType.CANNY_BOARD) ? getCurrentBoardUrlName() : null;
     for (const post of postLinks) {
         const href = post.getAttribute('href');
         console.log('Found a post link. href=', href);
         result.push(href);
+        if (currentBoard) {
+            applyPreFilterToLink(post, currentBoard);
+        }
     }
     return result;
 };
@@ -242,18 +308,18 @@ const ensurePostInfoExtDiv = (postListItem) => {
 };
 
 /**
- * Apply the visibility filter (post-filter) to a list item.
+ * Apply the author-based visibility filter (post-filter) to a list item.
  *
  * "Post-filter" terminology: the decision requires the fetched post info
  * (author identity, viewer comparison), as opposed to a "pre-filter" that
  * could decide at link-discovery time without the post info.
  *
  * Toggles the `ext_hidePost` CSS class according to the user's
- * `visibilityFilter` setting.
+ * `authorFilter` setting.
  */
 const applyPostFilter = (postListItem, postInfo) => {
     const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
-    switch (currentSettings.visibilityFilter) {
+    switch (currentSettings.authorFilter) {
         default:
         case 'SHOW_ALL':
             postListItem.classList.remove('ext_hidePost');

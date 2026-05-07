@@ -2,6 +2,13 @@ body .ext_hidePost {
     display: none !important;
 }
 
+/* Hide posts whose board does not match the current page's board.
+   Toggled by the user's "Hide posts from other boards" setting (pre-filter,
+   independent from the post-filter that uses `ext_hidePost` above). */
+body .ext_hideForeignBoardPost {
+    display: none !important;
+}
+
 .ext_markAuthorPost {
     background-color: lightgreen;
 }
