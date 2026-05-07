@@ -242,6 +242,40 @@ const ensurePostInfoExtDiv = (postListItem) => {
 };
 
 /**
+ * Apply the visibility filter (post-filter) to a list item.
+ *
+ * "Post-filter" terminology: the decision requires the fetched post info
+ * (author identity, viewer comparison), as opposed to a "pre-filter" that
+ * could decide at link-discovery time without the post info.
+ *
+ * Toggles the `ext_hidePost` CSS class according to the user's
+ * `visibilityFilter` setting.
+ */
+const applyPostFilter = (postListItem, postInfo) => {
+    const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
+    switch (currentSettings.visibilityFilter) {
+        default:
+        case 'SHOW_ALL':
+            postListItem.classList.remove('ext_hidePost');
+            break;
+        case 'ONLY_MINE':
+            if (postInfo.isAuthorIsViewer) {
+                postListItem.classList.remove('ext_hidePost');
+            } else {
+                postListItem.classList.add('ext_hidePost');
+            }
+            break;
+        case 'ONLY_SPECIFIED_AUTHORS_BY_NAME':
+            if (authorIncluded) {
+                postListItem.classList.remove('ext_hidePost');
+            } else {
+                postListItem.classList.add('ext_hidePost');
+            }
+            break;
+    }
+};
+
+/**
  * Decorate current Board page with specified Post info
  */
 const decorateBoardPageWithPostInfo = (postInfo) => {
@@ -253,7 +287,7 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
         // `postListItemV2`. Match both so this extension keeps working on
         // Canny instances that may still use the old class name.
         const postListItem = postLink.closest('.postListItem, .postListItemV2');
-        // postListItem could be null. (for instance, this postLink is in Notification popup) 
+        // postListItem could be null. (for instance, this postLink is in Notification popup)
         if (postListItem) {
 
             // additional info
@@ -271,30 +305,10 @@ const decorateBoardPageWithPostInfo = (postInfo) => {
                 createdSpan.innerText = '';
             }
 
-            // Visibility Filter 
-            const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
-            switch (currentSettings.visibilityFilter) {
-                default:
-                case 'SHOW_ALL':
-                    postListItem.classList.remove('ext_hidePost');
-                    break;
-                case 'ONLY_MINE':
-                    if (postInfo.isAuthorIsViewer) {
-                        postListItem.classList.remove('ext_hidePost');
-                    } else {
-                        postListItem.classList.add('ext_hidePost');
-                    }
-                    break;
-                case 'ONLY_SPECIFIED_AUTHORS_BY_NAME':
-                    if (authorIncluded) {
-                        postListItem.classList.remove('ext_hidePost');
-                    } else {
-                        postListItem.classList.add('ext_hidePost');
-                    }
-                    break;
-            }
+            applyPostFilter(postListItem, postInfo);
 
             // Marking
+            const authorIncluded = currentSettings.authorNames.includes(postInfo.authorName);
             if (currentSettings.markMyPosts && postInfo.isAuthorIsViewer) {
                 postListItem.classList.add('ext_markMyPost');
                 postListItem.classList.remove('ext_markAuthorPost');
