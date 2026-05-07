@@ -63,7 +63,9 @@ Mozilla Add-ons (AMO) からインストールできます: _1.1.0 の listed-mo
 - **Show the date each post is created** (投稿日を表示): 投稿一覧に投稿日を追加します。
 - **Mark my posts** (自分の投稿に印を付ける): 自分が書いた投稿に背景色を付けます。Canny にログインしている必要があります (拡張がどの投稿があなたのものかを判別するため)。
 - **Mark posts by specified authors** (指定したユーザーの投稿に印を付ける): リストで指定したユーザーの投稿に、自分の投稿とは別の背景色を付けます。
-- **Visibility Filter** (表示フィルタ): "Show all posts" (すべて表示)、"Only posts that I wrote" (自分の投稿のみ)、"Only posts by specified authors" (指定したユーザーの投稿のみ) から選びます。
+- **Visibility filters** (表示フィルタ): 独立して動作する 2 つのフィルタがあります。投稿は両方のフィルタが許可した場合にのみ表示されます。
+  - **Filter by author** (投稿者でフィルタ): "Show all posts" (すべて表示)、"Only posts that I wrote" (自分の投稿のみ)、"Only posts by specified authors" (指定したユーザーの投稿のみ) から選びます。
+  - **Hide posts from other boards** (他のボードの投稿を隠す): on にすると、現在のページのボードと一致しない投稿を隠します。Canny の cross-board 検索が他のボードの投稿を返す場合に便利です。デフォルト: off。
 - **Author Names** (ユーザー名リスト): 上の印付け機能・絞り込み機能で使うユーザー名のリストです。`+` と `-` ボタンで追加・削除できます。
 
 ### セッション設定と既定値

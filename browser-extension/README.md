@@ -95,8 +95,14 @@ The settings themselves are:
   extension can identify which posts are yours.
 - **Mark posts by specified authors** — applies a different
   background color to posts authored by names you list.
-- **Visibility Filter** — choose between "Show all posts", "Only
-  posts that I wrote", or "Only posts by specified authors".
+- **Visibility filters** — two filters that operate independently
+  and combine. A post is shown only when both filters allow it.
+  - **Filter by author** — choose between "Show all posts", "Only
+    posts that I wrote", or "Only posts by specified authors".
+  - **Hide posts from other boards** — when on, hides posts whose
+    board does not match the current page's board. Useful when
+    Canny's cross-board search returns posts from other boards.
+    Default: off.
 - **Author Names** — the list of names used by the marking and
   filtering features above. Add and remove entries with the `+` and
   `-` buttons.
