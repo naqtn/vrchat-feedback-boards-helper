@@ -117,6 +117,12 @@ The settings themselves are:
 Both kinds of settings live in your browser's local storage; nothing
 is sent to any server.
 
+## Also see: cookbook of useful patterns
+
+[COOKBOOK.md](../COOKBOOK.md) (at the repository root) collects
+recipes that combine this extension with the companion VRChat search
+web page for common situations on the VRChat Canny site.
+
 ## Privacy
 
 This extension does not collect, transmit, or share any personal
